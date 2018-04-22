@@ -50,6 +50,7 @@ static NSString * const  cell2 = @"adscell"; // 广告业的图片
     [super viewDidLoad];
     self.navigationItem.title = @"新闻页面";
     self.view.backgroundColor = [UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.backgroundColor = [UIColor clearColor];
     self.hud.label.text = @"加载中...";
@@ -63,16 +64,10 @@ static NSString * const  cell2 = @"adscell"; // 广告业的图片
 {
     if (_webView == nil) {
         _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-40, 400)];
-        _webView.backgroundColor = [UIColor whiteColor];
+        _webView.backgroundColor = [UIColor redColor];
         _webView.delegate = self;
         _webView.scalesPageToFit = YES;
-        //内容插入
-        _webView.scrollView.contentInset = UIEdgeInsetsMake(55, 0, 0, 0);
-        //偏移量=插入内容高度
-        _webView.scrollView.contentOffset = CGPointMake(0, -55);
         _webView.scrollView.showsVerticalScrollIndicator = NO;
-     
-        
     }
     return _webView;
 }
@@ -94,16 +89,47 @@ static NSString * const  cell2 = @"adscell"; // 广告业的图片
 #pragma mark - 新闻页面的详情数据
      [[NetworkManager shareNetworkManager] GETUrl:[NSString stringWithFormat:@"%@%@",BaseUrl,ViewArticle] parameters:@{@"id":@"1",@"format":@"json"}  success:^(id responseObject) {
      NSMutableDictionary * result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
-//         User *user = [User objectWithKeyValues:dict];
          self.articleModel = [ArticleModel mj_objectWithKeyValues:result];
-         self.textSize = [self.articleModel.articleName boundingRectWithSize:CGSizeMake(SCREEN_WIDTH-20, 1000) options:NSStringDrawingTruncatesLastVisibleLine attributes: @{NSFontAttributeName:[UIFont systemFontOfSize:23],} context:nil].size;;
+         self.textSize = [self sizeForNoticeTitle:self.articleModel.articleName font:[UIFont systemFontOfSize:23]];
+         //内容插入
+        self.webView.scrollView.contentInset = UIEdgeInsetsMake(self.textSize.height+20, 0, 0, 0);
+         //偏移量=插入内容高度
+         self.webView.scrollView.contentOffset = CGPointMake(0, -(self.textSize.height+20));
          [self.webView loadHTMLString:self.articleModel.articleContent baseURL:nil];
          [self getConnectedNewsList];
-       NSLog(@"返回数据为%@",result);
      } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
      NSLog(@"失败%@",error);
      
      }];
+}
+-(CGSize)sizeForNoticeTitle:(NSString*)text font:(UIFont*)font{
+    CGRect screen = [UIScreen mainScreen].bounds;
+    CGFloat maxWidth = screen.size.width;
+    CGSize maxSize = CGSizeMake(maxWidth-20, CGFLOAT_MAX);
+    
+    CGSize textSize = CGSizeZero;
+    // iOS7以后使用boundingRectWithSize，之前使用sizeWithFont
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        // 多行必需使用NSStringDrawingUsesLineFragmentOrigin，网上有人说不是用NSStringDrawingUsesFontLeading计算结果不对
+        NSStringDrawingOptions opts = NSStringDrawingUsesLineFragmentOrigin |
+        NSStringDrawingUsesFontLeading;
+        
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        [style setLineBreakMode:NSLineBreakByCharWrapping];
+        
+        NSDictionary *attributes = @{ NSFontAttributeName : font, NSParagraphStyleAttributeName : style };
+        
+        CGRect rect = [text boundingRectWithSize:maxSize
+                                         options:opts
+                                      attributes:attributes
+                                         context:nil];
+        textSize = rect.size;
+    }
+    else{
+        textSize = [text sizeWithFont:font constrainedToSize:maxSize lineBreakMode:NSLineBreakByCharWrapping];
+    }
+    
+    return textSize;
 }
 #pragma mark - 广告业数据
 -(void)getAdvetiseList {
@@ -199,7 +225,6 @@ static NSString * const  cell2 = @"adscell"; // 广告业的图片
     //标题label设置
     //标题label设置
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.backgroundColor = [UIColor redColor];
     titleLabel.numberOfLines = 0;
     titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
@@ -207,7 +232,7 @@ static NSString * const  cell2 = @"adscell"; // 广告业的图片
     LabelSet(titleLabel, self.articleModel.articleName, [UIColor blackColor], 23);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.text = self.articleModel.articleName;
-    titleLabel.frame = CGRectMake((SCREEN_WIDTH - titleLabel.frame.size.width) / 2, -titleLabel.frame.size.height - 10, titleLabel.frame.size.width, titleLabel.frame.size.height);
+    titleLabel.frame = CGRectMake((SCREEN_WIDTH - self.textSize.width) / 2, -self.textSize.height-10, self.textSize.width, self.textSize.height);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     CGSize  fittingSize = [webView sizeThatFits:CGSizeZero];
     webView.frame = CGRectMake(0, 0, fittingSize.width, fittingSize.height);

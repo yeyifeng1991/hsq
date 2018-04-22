@@ -7,6 +7,6 @@ pod 'Masonry'
 pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'YYModel'
- pod 'MJExtension'
+pod 'MJExtension'
 pod 'MBProgressHUD'
 end
