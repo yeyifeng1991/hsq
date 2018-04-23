@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C071378208E061900D4844F /* XHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C071377208E061900D4844F /* XHNavigationController.m */; };
 		4C07244E2089785A006A20A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07244D2089785A006A20A3 /* AppDelegate.m */; };
 		4C0724542089785A006A20A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C0724522089785A006A20A3 /* Main.storyboard */; };
 		4C0724562089785A006A20A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C0724552089785A006A20A3 /* Assets.xcassets */; };
@@ -43,9 +44,6 @@
 		4C0724EC2089BF54006A20A3 /* UIScrollView+HeaderScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724D82089BF54006A20A3 /* UIScrollView+HeaderScaleImage.m */; };
 		4C0724ED2089BF54006A20A3 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724DA2089BF54006A20A3 /* UIView+Extension.m */; };
 		4C0724EF2089BF54006A20A3 /* UIView+YYFKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724DE2089BF54006A20A3 /* UIView+YYFKeyboard.m */; };
-		4C0724F32089C6B8006A20A3 /* ZJSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724F12089C6B7006A20A3 /* ZJSearchResultController.m */; };
-		4C0724F62089DD2E006A20A3 /* YKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724F52089DD2E006A20A3 /* YKBaseViewController.m */; };
-		4C0724FD208AD407006A20A3 /* XYHttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724FC208AD407006A20A3 /* XYHttpManager.m */; };
 		4C072500208ADD70006A20A3 /* HttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0724FF208ADD70006A20A3 /* HttpManager.m */; };
 		4C072503208AE8AB006A20A3 /* ArticleListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072502208AE8AB006A20A3 /* ArticleListModel.m */; };
 		4C072506208B0016006A20A3 /* AppTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072505208B0016006A20A3 /* AppTools.m */; };
@@ -54,15 +52,19 @@
 		4C07250F208B1D4C006A20A3 /* ArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07250E208B1D4C006A20A3 /* ArticleModel.m */; };
 		4C072516208B2865006A20A3 /* AdViewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072514208B2865006A20A3 /* AdViewsCell.m */; };
 		4C072517208B2865006A20A3 /* AdViewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C072515208B2865006A20A3 /* AdViewsCell.xib */; };
-		4C07253C208B33D2006A20A3 /* TempViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07253B208B33D2006A20A3 /* TempViewViewController.m */; };
 		4C07253F208B3AC0006A20A3 /* adContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07253E208B3AC0006A20A3 /* adContentCell.m */; };
 		4C072542208C3201006A20A3 /* RootWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072541208C3201006A20A3 /* RootWebViewController.m */; };
 		4C072545208C560F006A20A3 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072544208C560F006A20A3 /* AdViewController.m */; };
+		4C07254F208DAB15006A20A3 /* connectedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07254D208DAB15006A20A3 /* connectedCell.m */; };
+		4C072550208DAB15006A20A3 /* connectedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C07254E208DAB15006A20A3 /* connectedCell.xib */; };
+		4C072553208DC55C006A20A3 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072552208DC55C006A20A3 /* UIColor+Hex.m */; };
 		A53ECCF835EE76DC30EFC085 /* libPods-qsd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B7EB7CFE08AAA880E3FC6D /* libPods-qsd.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		136BA1B61936BDA2325B8FFC /* Pods-qsd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qsd.release.xcconfig"; path = "Pods/Target Support Files/Pods-qsd/Pods-qsd.release.xcconfig"; sourceTree = "<group>"; };
+		4C071376208E061800D4844F /* XHNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHNavigationController.h; sourceTree = "<group>"; };
+		4C071377208E061900D4844F /* XHNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHNavigationController.m; sourceTree = "<group>"; };
 		4C0724492089785A006A20A3 /* qsd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qsd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C07244C2089785A006A20A3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4C07244D2089785A006A20A3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -135,12 +137,6 @@
 		4C0724DA2089BF54006A20A3 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		4C0724DD2089BF54006A20A3 /* UIView+YYFKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYFKeyboard.h"; sourceTree = "<group>"; };
 		4C0724DE2089BF54006A20A3 /* UIView+YYFKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYFKeyboard.m"; sourceTree = "<group>"; };
-		4C0724F12089C6B7006A20A3 /* ZJSearchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJSearchResultController.m; sourceTree = "<group>"; };
-		4C0724F22089C6B7006A20A3 /* ZJSearchResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJSearchResultController.h; sourceTree = "<group>"; };
-		4C0724F42089DD2E006A20A3 /* YKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YKBaseViewController.h; sourceTree = "<group>"; };
-		4C0724F52089DD2E006A20A3 /* YKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YKBaseViewController.m; sourceTree = "<group>"; };
-		4C0724FB208AD3FA006A20A3 /* XYHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYHttpManager.h; sourceTree = "<group>"; };
-		4C0724FC208AD407006A20A3 /* XYHttpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYHttpManager.m; sourceTree = "<group>"; };
 		4C0724FE208ADD6C006A20A3 /* HttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpManager.h; sourceTree = "<group>"; };
 		4C0724FF208ADD70006A20A3 /* HttpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpManager.m; sourceTree = "<group>"; };
 		4C072501208AE8AB006A20A3 /* ArticleListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleListModel.h; sourceTree = "<group>"; };
@@ -156,8 +152,6 @@
 		4C072513208B2865006A20A3 /* AdViewsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdViewsCell.h; sourceTree = "<group>"; };
 		4C072514208B2865006A20A3 /* AdViewsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewsCell.m; sourceTree = "<group>"; };
 		4C072515208B2865006A20A3 /* AdViewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdViewsCell.xib; sourceTree = "<group>"; };
-		4C07253A208B33D2006A20A3 /* TempViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TempViewViewController.h; sourceTree = "<group>"; };
-		4C07253B208B33D2006A20A3 /* TempViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TempViewViewController.m; sourceTree = "<group>"; };
 		4C07253D208B3AC0006A20A3 /* adContentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = adContentCell.h; sourceTree = "<group>"; };
 		4C07253E208B3AC0006A20A3 /* adContentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = adContentCell.m; sourceTree = "<group>"; };
 		4C072540208C3201006A20A3 /* RootWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootWebViewController.h; sourceTree = "<group>"; };
@@ -166,6 +160,11 @@
 		4C072544208C560F006A20A3 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdViewController.m; sourceTree = "<group>"; };
 		4C072546208C7BBD006A20A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		4C072547208C7BBD006A20A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		4C07254C208DAB15006A20A3 /* connectedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = connectedCell.h; sourceTree = "<group>"; };
+		4C07254D208DAB15006A20A3 /* connectedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = connectedCell.m; sourceTree = "<group>"; };
+		4C07254E208DAB15006A20A3 /* connectedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = connectedCell.xib; sourceTree = "<group>"; };
+		4C072551208DC557006A20A3 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		4C072552208DC55C006A20A3 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		892CABC25A16B951C4CAD1B6 /* Pods-qsd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qsd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-qsd/Pods-qsd.debug.xcconfig"; sourceTree = "<group>"; };
 		E6B7EB7CFE08AAA880E3FC6D /* libPods-qsd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-qsd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -208,27 +207,7 @@
 				4C07246C208983AB006A20A3 /* 滚动视图 */,
 				4C07246220897F60006A20A3 /* systems */,
 				4C0724A92089922C006A20A3 /* 滚动条+颜色渐变 效果 */,
-				4C072469208980A3006A20A3 /* MainViewController.h */,
-				4C07246A208980A3006A20A3 /* MainViewController.m */,
-				4C0724A720899158006A20A3 /* ZJTestViewController.h */,
-				4C0724A620899157006A20A3 /* ZJTestViewController.m */,
-				4C0724B62089BC1E006A20A3 /* NewsViewController.h */,
-				4C0724B72089BC1E006A20A3 /* NewsViewController.m */,
-				4C07253A208B33D2006A20A3 /* TempViewViewController.h */,
-				4C07253B208B33D2006A20A3 /* TempViewViewController.m */,
-				4C0724A2208988FE006A20A3 /* NetworkMacro.h */,
-				4C0724A32089890F006A20A3 /* NetworkManager.h */,
-				4C0724A420898917006A20A3 /* NetworkManager.m */,
-				4C0724FB208AD3FA006A20A3 /* XYHttpManager.h */,
-				4C0724FC208AD407006A20A3 /* XYHttpManager.m */,
-				4C0724F42089DD2E006A20A3 /* YKBaseViewController.h */,
-				4C0724F52089DD2E006A20A3 /* YKBaseViewController.m */,
-				4C0724BC2089BE9B006A20A3 /* NewSearchViewController.h */,
-				4C0724BD2089BE9B006A20A3 /* NewSearchViewController.m */,
-				4C0724F22089C6B7006A20A3 /* ZJSearchResultController.h */,
-				4C0724F12089C6B7006A20A3 /* ZJSearchResultController.m */,
-				4C072540208C3201006A20A3 /* RootWebViewController.h */,
-				4C072541208C3201006A20A3 /* RootWebViewController.m */,
+				4C072548208D901B006A20A3 /* 主要界面 */,
 				4C0724AE20899BB2006A20A3 /* Models */,
 				4C0724AD20899BA4006A20A3 /* Views */,
 				4C0724522089785A006A20A3 /* Main.storyboard */,
@@ -305,6 +284,9 @@
 				4C072515208B2865006A20A3 /* AdViewsCell.xib */,
 				4C07253D208B3AC0006A20A3 /* adContentCell.h */,
 				4C07253E208B3AC0006A20A3 /* adContentCell.m */,
+				4C07254C208DAB15006A20A3 /* connectedCell.h */,
+				4C07254D208DAB15006A20A3 /* connectedCell.m */,
+				4C07254E208DAB15006A20A3 /* connectedCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,6 +321,10 @@
 				4C072505208B0016006A20A3 /* AppTools.m */,
 				4C0724FE208ADD6C006A20A3 /* HttpManager.h */,
 				4C0724FF208ADD70006A20A3 /* HttpManager.m */,
+				4C072551208DC557006A20A3 /* UIColor+Hex.h */,
+				4C072552208DC55C006A20A3 /* UIColor+Hex.m */,
+				4C071376208E061800D4844F /* XHNavigationController.h */,
+				4C071377208E061900D4844F /* XHNavigationController.m */,
 				4C0724C02089BF54006A20A3 /* Category */,
 			);
 			path = Tools;
@@ -377,6 +363,26 @@
 				4C0724DE2089BF54006A20A3 /* UIView+YYFKeyboard.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		4C072548208D901B006A20A3 /* 主要界面 */ = {
+			isa = PBXGroup;
+			children = (
+				4C072469208980A3006A20A3 /* MainViewController.h */,
+				4C07246A208980A3006A20A3 /* MainViewController.m */,
+				4C0724A720899158006A20A3 /* ZJTestViewController.h */,
+				4C0724A620899157006A20A3 /* ZJTestViewController.m */,
+				4C0724B62089BC1E006A20A3 /* NewsViewController.h */,
+				4C0724B72089BC1E006A20A3 /* NewsViewController.m */,
+				4C0724A2208988FE006A20A3 /* NetworkMacro.h */,
+				4C0724A32089890F006A20A3 /* NetworkManager.h */,
+				4C0724A420898917006A20A3 /* NetworkManager.m */,
+				4C0724BC2089BE9B006A20A3 /* NewSearchViewController.h */,
+				4C0724BD2089BE9B006A20A3 /* NewSearchViewController.m */,
+				4C072540208C3201006A20A3 /* RootWebViewController.h */,
+				4C072541208C3201006A20A3 /* RootWebViewController.m */,
+			);
+			path = "主要界面";
 			sourceTree = "<group>";
 		};
 		ABB34AA60128E3E71C5CEEA1 /* Pods */ = {
@@ -458,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C0724592089785A006A20A3 /* LaunchScreen.storyboard in Resources */,
+				4C072550208DAB15006A20A3 /* connectedCell.xib in Resources */,
 				4C0724562089785A006A20A3 /* Assets.xcassets in Resources */,
 				4C0724B320899BDA006A20A3 /* NewsCell.xib in Resources */,
 				4C0724542089785A006A20A3 /* Main.storyboard in Resources */,
@@ -532,8 +539,6 @@
 				4C0724EC2089BF54006A20A3 /* UIScrollView+HeaderScaleImage.m in Sources */,
 				4C072506208B0016006A20A3 /* AppTools.m in Sources */,
 				4C07253F208B3AC0006A20A3 /* adContentCell.m in Sources */,
-				4C07253C208B33D2006A20A3 /* TempViewViewController.m in Sources */,
-				4C0724FD208AD407006A20A3 /* XYHttpManager.m in Sources */,
 				4C0724E12089BF54006A20A3 /* NSDate+Utils.m in Sources */,
 				4C072486208983C1006A20A3 /* ZJTitleView.m in Sources */,
 				4C0724E62089BF54006A20A3 /* UIBarButtonItem+Common.m in Sources */,
@@ -566,14 +571,15 @@
 				4C0724E42089BF54006A20A3 /* NSString+XHExtension.m in Sources */,
 				4C0724E52089BF54006A20A3 /* SVProgressHUD+XH.m in Sources */,
 				4C07246520897F91006A20A3 /* LaunchIntroductionView.m in Sources */,
+				4C071378208E061900D4844F /* XHNavigationController.m in Sources */,
 				4C0724E32089BF54006A20A3 /* NSObject+YYExtension.m in Sources */,
-				4C0724F32089C6B8006A20A3 /* ZJSearchResultController.m in Sources */,
 				4C0724B82089BC1E006A20A3 /* NewsViewController.m in Sources */,
 				4C072545208C560F006A20A3 /* AdViewController.m in Sources */,
 				4C07250F208B1D4C006A20A3 /* ArticleModel.m in Sources */,
 				4C0724A820899158006A20A3 /* ZJTestViewController.m in Sources */,
+				4C072553208DC55C006A20A3 /* UIColor+Hex.m in Sources */,
+				4C07254F208DAB15006A20A3 /* connectedCell.m in Sources */,
 				4C072485208983C1006A20A3 /* ZJSegmentStyle.m in Sources */,
-				4C0724F62089DD2E006A20A3 /* YKBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

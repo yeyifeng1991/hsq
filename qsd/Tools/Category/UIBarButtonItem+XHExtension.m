@@ -26,7 +26,7 @@
                                          target:(id)target
                                          action:(SEL)action{
     
-    UIButton *button = [[UIButton alloc]init];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 22, 22)];
     [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 //    button.imageEdgeInsets = UIEdgeInsetsMake(-10, -10, -10, 10);

@@ -16,6 +16,7 @@
 @property (nonatomic, assign)BOOL isOpenHud;
 @property (nonatomic, strong)UIButton *btnBack;
 @property (nonatomic,strong) MBProgressHUD * hud;
+@property (nonatomic,assign)  BOOL isFirst;
 
 /**
  void

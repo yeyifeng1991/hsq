@@ -15,6 +15,9 @@
 #import "AppStartConfigModel.h"
 #import "MJExtension.h"
 #import "AdViewController.h"
+#import "common.h"
+#import "UIColor+Hex.h"
+#import "XHNavigationController.h"
 @interface AppDelegate ()
 @property (nonatomic, strong) NSMutableArray *dataArray; // 当前页面数据类
 
@@ -25,11 +28,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#FE5722"]];
+        [[UINavigationBar appearance] setTitleTextAttributes:
+         [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@ "HelveticaNeue-CondensedBlack" size:18.0], NSFontAttributeName,nil]];
+    }
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
+    
     AdViewController *adVC = [[AdViewController alloc] init];
-    self.window.rootViewController = adVC;
+    XHNavigationController *nav = [[XHNavigationController alloc] initWithRootViewController:adVC];
+    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRootViewController:) name:@"changeRootViewController" object:nil];
 
@@ -53,7 +63,7 @@
     if ([notification.object isEqualToString:@"fromAdVC"]) // 改变根式图
     {
         ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+        XHNavigationController *nav = [[XHNavigationController alloc] initWithRootViewController:main];
         self.window.rootViewController = nav;
     }else{
         

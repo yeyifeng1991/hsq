@@ -41,9 +41,10 @@
 //                    ];
     self.titles = @[@"借贷热点",
                     @"投资研究",
+                    @"深度调研",
                     @"行情分析",
                     @"对话专家",
-                    @"学院咨询",
+                    @"学院资讯",
                     ];
     // 初始化
     _scrollPageView = [[ZJScrollPageView alloc] initWithFrame:CGRectMake(0, 64.0, self.view.bounds.size.width, self.view.bounds.size.height - 64.0) segmentStyle:style titles:self.titles parentViewController:self delegate:self];
@@ -71,7 +72,6 @@
     
     return childVc;
 }
-
 
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods {
     return NO;

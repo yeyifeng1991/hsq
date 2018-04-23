@@ -8,13 +8,16 @@
 
 #import "RootWebViewController.h"
 #import "Masonry.h"
-
+#import "common.h"
 
 @interface RootWebViewController ()<WKUIDelegate, WKNavigationDelegate>
+@property(nonatomic,strong) UIBarButtonItem *backItem;
+
 
 
 @end
 #define CCXSIZE [UIScreen mainScreen].bounds.size//获取屏幕SIZE
+#define GJJBlackTextColorString @"3b3a3e"
 
 #define CCXSCREENSCALE CCXSIZE.width/750.0f //获取当前屏幕尺寸与苹果6S宽度比
 
@@ -25,35 +28,116 @@
     [_webView setNavigationDelegate:nil];
     [_webView setUIDelegate:nil];
 }
+//根据颜色生成图片
+-(UIImage *)createImageWithColor:(UIColor*)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+   
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = CCXColorWithHex(@"#ffffff");
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.clipsToBounds = NO;
+    [self setBackNavigationBarItem];
+//    [self.navigationController.navigationBar setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+//    self.navigationItem.title = @"搞事情";
     [self createWebViewWithURL:self.url];
     
-    self.btnBack = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 12, 20)];
-    [self.btnBack setImage:[UIImage imageNamed:@"箭头"] forState: UIControlStateNormal];
-    [self.btnBack addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.btnBack];
-    self.navigationItem.leftBarButtonItem = buttonItem;
+////    self.btnBack = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 12, 20)];
+//        self.btnBack = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 50, 50)];
+//    [self.btnBack setImage:[UIImage imageNamed:@"back"] forState: UIControlStateNormal];
+//    self.btnBack.backgroundColor = [UIColor redColor];
+//    [self.btnBack addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem * buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.btnBack];
+//    self.navigationItem.leftBarButtonItem = buttonItem;
+//    [self setBackNavigationBarItem];
+}
+#pragma mark - 自定义方法
+/**
+ *   使导航栏透明
+ */
+- (void)setClearNavigationBar{
+    self.navigationController.navigationBar.translucent = YES;
+    UIColor *color = [UIColor clearColor];
+    CGRect rect = CGRectMake(0.0f, 0.0f, SCREEN_WIDTH, 64);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.clipsToBounds = YES;
 }
 
+/**
+ 创建返回按钮
+ */
+- (void)setBackNavigationBarItem{
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+    baseView.backgroundColor = [UIColor grayColor];
+    
+    
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 64, 44)];
+    view.backgroundColor = [UIColor redColor];
+    view.userInteractionEnabled = YES;
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"back"]];
+    imageV.frame = CGRectMake(0, 12, 12, 20);
+    imageV.userInteractionEnabled = YES;
+    [baseView addSubview:imageV];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 64, 44);
+    button.tag = 9999;
+    [button addTarget:self action:@selector(BarbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [baseView addSubview:button];
+    [self.view addSubview:baseView];
+    
+//    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:view];
+//    self.navigationItem.leftBarButtonItem = item;
+//    UIView *ringhtV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 64, 44)];
+//    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:ringhtV];
+//    self.navigationItem.rightBarButtonItem = rightItem;
+}
 - (UIRectEdge)edgesForExtendedLayout {
     return UIRectEdgeNone;
 }
+-(void)BarbuttonClick:(UIButton*)button
+{
+    if (_webView.backForwardList.backList.count > 0){
+        [self.webView goBack];
+    } else {
+        if (self.isFirst == YES) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRootViewController" object:@"fromAdVC"];
 
+        }
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 - (void)createWebViewWithURL:(NSString *)url{
-    self.progressView = [[UIProgressView alloc] init];
+    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 1)];
     [self.view addSubview:self.progressView];
 //    [self.progressView makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.left.right.equalTo(self.view);
 //        make.height.equalTo(@(2 * CCXSCREENSCALE));
 //    }];
-    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.top.left.right.equalTo(self.view);
-        make.height.equalTo(@(2 * CCXSCREENSCALE));
-    }];
+//    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+//         make.top.left.right.equalTo(self.view);
+//        make.height.equalTo(@(2 * CCXSCREENSCALE));
+//    }];
    
     
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
@@ -69,7 +153,8 @@
     WKUserScript *noneSelectScript = [[WKUserScript alloc] initWithSource:javascript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     
     /**网页*/
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+//    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    self.webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 45, SCREEN_WIDTH, SCREEN_HEIGHT-64) configuration:config];
     [self.webView.configuration.userContentController addUserScript:noneSelectScript];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
@@ -78,10 +163,10 @@
 //        make.top.equalTo(self.progressView.bottom);
 //        make.left.right.bottom.equalTo(self.view);
 //    }];
-    [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.progressView.mas_bottom);
-        make.left.right.bottom.equalTo(self.view);
-    }];
+//    [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.progressView.mas_bottom);
+//        make.left.right.bottom.equalTo(self.view);
+//    }];
     [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
 }
@@ -90,7 +175,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"estimatedProgress"]&&object == _webView) {
         if (!self.isOpenHud){
-            self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//            self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.hud.detailsLabel.text = @"加载中...";
             self.isOpenHud = true;
         }
@@ -116,12 +202,7 @@
 
 
 - (void)onBack {
-    if (_webView.backForwardList.backList.count > 0){
-        [self.webView goBack];
-    } else {
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    
 }
 
 - (void)banGesture{

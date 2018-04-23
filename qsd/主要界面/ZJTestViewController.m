@@ -16,7 +16,6 @@
 #import "NewSearchViewController.h"
 #import "NewsViewController.h"
 #import "NetworkManager.h"
-#import "XYHttpManager.h"
 #import "HttpManager.h" // 小钱蜂的网络请求
 #import "ArticleListModel.h"
 #import "MJExtension.h"
@@ -37,14 +36,14 @@ static  NSString * cell = @"newsCell";
 - (IBAction)testBtnOnClick:(UIButton *)sender {
 //    ZJTest2ViewController *test = [ZJTest2ViewController new];
 //    [self showViewController:test sender:nil];
-    NSLog(@"点击按钮");
 }
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor= [UIColor whiteColor];
     _articleType = 1;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+
     [self.view addSubview:self.newsTab];
     self.newsTab.mj_header =[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.newsTab.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -52,7 +51,6 @@ static  NSString * cell = @"newsCell";
 }
 
 - (void)zj_viewDidLoadForIndex:(NSInteger)index {
-
 
 }
 
@@ -64,8 +62,7 @@ static  NSString * cell = @"newsCell";
                              @"PageIndex":[NSString stringWithFormat:@"%ld",_page],
                              @"format":@"json"};
      [[NetworkManager shareNetworkManager] GETUrl:[NSString stringWithFormat:@"%@%@",BaseUrl,GetArticleList] parameters:dic  success:^(id responseObject) {
-
-     NSMutableDictionary * resultArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
+      NSMutableDictionary * resultArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
          _page++;
          [self.dataArray addObjectsFromArray:[ArticleListModel mj_objectArrayWithKeyValuesArray:resultArray[@"rows"]]];
          [self.newsTab reloadData];
@@ -88,7 +85,9 @@ static  NSString * cell = @"newsCell";
 - (void)loadNewData
 {
     _page = 1;
-    [self.dataArray removeAllObjects];
+    if (self.dataArray.count >0) {
+        [self.dataArray removeAllObjects];
+    }
     [self loadDataSource];
 }
 - (void)loadMoreData
@@ -102,6 +101,7 @@ static  NSString * cell = @"newsCell";
         _newsTab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-40-64) style:UITableViewStylePlain];
         _newsTab.dataSource = self;
         _newsTab.delegate = self;
+        _newsTab.separatorColor = [UIColor clearColor];
         [_newsTab registerNib:[UINib nibWithNibName:@"NewsCell" bundle:nil] forCellReuseIdentifier:cell];
     }
     return _newsTab;
@@ -125,7 +125,10 @@ static  NSString * cell = @"newsCell";
         newscell = [[NewsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
     }
     newscell.selectionStyle = UITableViewCellSelectionStyleNone;
-    newscell.listModel = (ArticleListModel*)self.dataArray[indexPath.row];
+    if (self.dataArray.count >0) {
+        newscell.listModel = (ArticleListModel*)self.dataArray[indexPath.row];
+
+    }
    
     return newscell;
 }
@@ -136,8 +139,9 @@ static  NSString * cell = @"newsCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NewsViewController * vc = [[NewsViewController alloc]init];
-    vc.model = self.dataArray[indexPath.row];
-
+    if (self.dataArray.count>0) {
+        vc.model = self.dataArray[indexPath.row];//self.articleModel.articleType
+    }
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -145,11 +149,10 @@ static  NSString * cell = @"newsCell";
  // 使用系统的生命周期方法
  - (void)viewWillAppear:(BOOL)animated {
       [super viewWillAppear:animated];
-     _articleType = self.zj_currentIndex+1;
-//     [self.newsTab.mj_header beginRefreshing];
-     [self loadNewData];
+     self.navigationController.navigationBar.translucent = YES;
 
- 
+     _articleType = self.zj_currentIndex+1;
+     [self loadNewData];
  }
  
  - (void)viewDidAppear:(BOOL)animated {

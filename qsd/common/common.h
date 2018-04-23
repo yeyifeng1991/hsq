@@ -39,6 +39,22 @@
 #define XHRGBColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define XHColor(colorValue) [UIColor colorWithRed:((float)((colorValue & 0xFF0000) >> 16)) / 255.0 green:((float)((colorValue & 0xFF00) >> 8)) / 255.0 blue:((float)(colorValue & 0xFF)) / 255.0 alpha:1.0]
 
+/**
+ *  颜色设置宏定义区
+ */
+#define CCXCGColorWithHexAndAlpha(hex,alpha) [[UIColor colorWithHexString:hex alpha:alpha] CGcolor];
+#define CCXColorWithHexAndAlpha(hex,alpha) [UIColor colorWithHexString:hex alpha:alpha]; //通过16进制和透明度设置颜色
+#define CCXCGColorWithHex(hex) [[UIColor colorWithHexString:hex] CGColor];
+#define CCXColorWithHex(hex) [UIColor colorWithHexString:hex];//通过16进制设置颜色
+#define CCXBackColor CCXColorWithHex(@"#f0eff5")//背景色
+#define CCXMainColor CCXColorWithHex(GJJMainColorString)//主色调
+#define GJJNavigationColor CCXColorWithHex(GJJBlackTextColorString)//导航栏
+#define GJJMainColorString @"ffdb01"
+#define GJJBlackTextColorString @"3b3a3e"
+#define GJJOrangeTextColorString @"feb531"
+#define CCXColorWithRBBA(r,g,b,a) [UIColor colorWithRed:r green:g blue:b alpha:a]//通过R,G,B,A设置颜色
+#define CCXColorWithRGB(r,g,b)  [UIColor colorWithRed:r green:g blue:b alpha:1.0f]//通过R,G,B设置颜色
+
 #define button_red XHColor(0xf41515)
 #pragma - mark -  字体格式
 #define XHFont(ff) [UIFont fontWithName:@"STHeitiSC-Light" size:ff]
