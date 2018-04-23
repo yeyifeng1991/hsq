@@ -10,11 +10,22 @@
 
 @interface AppStartConfigModel : NSObject
 /*
+ [
+ {
  "id": 2,
-"key": "SysConfig",
-"value": "True",
-"url": "http://meimei.weilianupup.com/",
-"remark": ""
+ "key": "SysConfig",
+ "value": "True",
+ "url": "http://meimei.weilianupup.com/",
+ "remark": ""
+ },
+ {
+ "id": 3,
+ "key": "AppStartAd",
+ "value": "http://firstapp.weilianup.com/images/appAd.jpg",
+ "url": "http://meimei.weilianupup.com/",
+ "remark": null
+ }
+ ]
  */
 @property (nonatomic,strong) NSString * id;
 @property (nonatomic,strong) NSString * key;

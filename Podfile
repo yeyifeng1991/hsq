@@ -9,4 +9,5 @@ pod 'SDWebImage'
 pod 'YYModel'
 pod 'MJExtension'
 pod 'MBProgressHUD'
+pod 'DZNEmptyDataSet'
 end

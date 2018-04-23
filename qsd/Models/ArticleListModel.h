@@ -9,18 +9,36 @@
 #import <Foundation/Foundation.h>
 
 @interface ArticleListModel : NSObject
-//id = 1;
-//publishTime = 20小时前;
-//topicUrl = <null>;
-//author = 鹰眼区块链团队;
-//appTopicUrl = <null>;
-//source = 鹰眼区块链;
-//articleContent
+//"Id": "int",
+//"ArticleName": "",
+//"ArticleType": "",
+//"Icon": "",
+//"ReadCount": "int",
+//"TopicUrl": "",
+//"AppTopicUrl": "",
+//"ArticleContent": "",
+//"Author": "",
+//"Source": "",
+//"KeyWords": "",
+//"CreateTime": "Date",
+//"IsDujia": false,
+//"Status": false,
+//"IconSrc": "",
+//"PublishTime": ""
 @property (nonatomic,strong) NSString*id ;
-@property (nonatomic,strong) NSString*publishTime ; // 发布时间
-@property (nonatomic,strong) NSString*topicUrl ; // 顶部链接
-@property (nonatomic,strong) NSString*author ; //作者
-@property (nonatomic,strong) NSString*appTopicUrl ;
-@property (nonatomic,strong) NSString*source ;// 来源
-@property (nonatomic,strong) NSString*articleContent;// 文章内容
+@property (nonatomic,strong) NSString*articleName ;
+@property (nonatomic,strong) NSString*articleType ;
+@property (nonatomic,strong) NSString*icon ;
+@property (nonatomic,strong) NSString*readCount ;
+@property (nonatomic,strong) NSString*topicUrl ;
+@property (nonatomic,strong) NSString*appTopicUrl;
+@property (nonatomic,strong) NSString*articleContent;
+@property (nonatomic,strong) NSString*author;
+@property (nonatomic,strong) NSString*source;
+@property (nonatomic,strong) NSString*keyWords;//
+@property (nonatomic,strong) NSString*createTime;//
+@property (nonatomic,assign) BOOL isDujia;//
+@property (nonatomic,assign) BOOL status;//
+@property (nonatomic,strong) NSString*iconSrc;// 图片路径
+@property (nonatomic,strong) NSString*publishTime;//
 @end
