@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4C071378208E061900D4844F /* XHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C071377208E061900D4844F /* XHNavigationController.m */; };
+		4C07137B208EC8F900D4844F /* AnotherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07137A208EC8F900D4844F /* AnotherViewController.m */; };
+		4C07137E208EEC4800D4844F /* anotherRootWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07137D208EEC4800D4844F /* anotherRootWebVC.m */; };
+		4C071381208F035100D4844F /* XHWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C071380208F035000D4844F /* XHWebVC.m */; };
 		4C07244E2089785A006A20A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07244D2089785A006A20A3 /* AppDelegate.m */; };
 		4C0724542089785A006A20A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C0724522089785A006A20A3 /* Main.storyboard */; };
 		4C0724562089785A006A20A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C0724552089785A006A20A3 /* Assets.xcassets */; };
@@ -65,6 +68,12 @@
 		136BA1B61936BDA2325B8FFC /* Pods-qsd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qsd.release.xcconfig"; path = "Pods/Target Support Files/Pods-qsd/Pods-qsd.release.xcconfig"; sourceTree = "<group>"; };
 		4C071376208E061800D4844F /* XHNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHNavigationController.h; sourceTree = "<group>"; };
 		4C071377208E061900D4844F /* XHNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHNavigationController.m; sourceTree = "<group>"; };
+		4C071379208EC8F900D4844F /* AnotherViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnotherViewController.h; sourceTree = "<group>"; };
+		4C07137A208EC8F900D4844F /* AnotherViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnotherViewController.m; sourceTree = "<group>"; };
+		4C07137C208EEC4800D4844F /* anotherRootWebVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = anotherRootWebVC.h; sourceTree = "<group>"; };
+		4C07137D208EEC4800D4844F /* anotherRootWebVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = anotherRootWebVC.m; sourceTree = "<group>"; };
+		4C07137F208F034A00D4844F /* XHWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHWebVC.h; sourceTree = "<group>"; };
+		4C071380208F035000D4844F /* XHWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHWebVC.m; sourceTree = "<group>"; };
 		4C0724492089785A006A20A3 /* qsd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qsd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C07244C2089785A006A20A3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4C07244D2089785A006A20A3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -374,6 +383,8 @@
 				4C0724A620899157006A20A3 /* ZJTestViewController.m */,
 				4C0724B62089BC1E006A20A3 /* NewsViewController.h */,
 				4C0724B72089BC1E006A20A3 /* NewsViewController.m */,
+				4C071379208EC8F900D4844F /* AnotherViewController.h */,
+				4C07137A208EC8F900D4844F /* AnotherViewController.m */,
 				4C0724A2208988FE006A20A3 /* NetworkMacro.h */,
 				4C0724A32089890F006A20A3 /* NetworkManager.h */,
 				4C0724A420898917006A20A3 /* NetworkManager.m */,
@@ -381,6 +392,10 @@
 				4C0724BD2089BE9B006A20A3 /* NewSearchViewController.m */,
 				4C072540208C3201006A20A3 /* RootWebViewController.h */,
 				4C072541208C3201006A20A3 /* RootWebViewController.m */,
+				4C07137C208EEC4800D4844F /* anotherRootWebVC.h */,
+				4C07137D208EEC4800D4844F /* anotherRootWebVC.m */,
+				4C07137F208F034A00D4844F /* XHWebVC.h */,
+				4C071380208F035000D4844F /* XHWebVC.m */,
 			);
 			path = "主要界面";
 			sourceTree = "<group>";
@@ -541,6 +556,7 @@
 				4C07253F208B3AC0006A20A3 /* adContentCell.m in Sources */,
 				4C0724E12089BF54006A20A3 /* NSDate+Utils.m in Sources */,
 				4C072486208983C1006A20A3 /* ZJTitleView.m in Sources */,
+				4C07137B208EC8F900D4844F /* AnotherViewController.m in Sources */,
 				4C0724E62089BF54006A20A3 /* UIBarButtonItem+Common.m in Sources */,
 				4C072481208983C1006A20A3 /* ZJCollectionView.m in Sources */,
 				4C0724E92089BF54006A20A3 /* UIImage+HDExtension.m in Sources */,
@@ -577,9 +593,11 @@
 				4C072545208C560F006A20A3 /* AdViewController.m in Sources */,
 				4C07250F208B1D4C006A20A3 /* ArticleModel.m in Sources */,
 				4C0724A820899158006A20A3 /* ZJTestViewController.m in Sources */,
+				4C071381208F035100D4844F /* XHWebVC.m in Sources */,
 				4C072553208DC55C006A20A3 /* UIColor+Hex.m in Sources */,
 				4C07254F208DAB15006A20A3 /* connectedCell.m in Sources */,
 				4C072485208983C1006A20A3 /* ZJSegmentStyle.m in Sources */,
+				4C07137E208EEC4800D4844F /* anotherRootWebVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

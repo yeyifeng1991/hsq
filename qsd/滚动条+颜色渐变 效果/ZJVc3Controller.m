@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"钱迅达";
+    self.title = @"金迅达";
     self.navigationItem.rightBarButtonItem =[UIBarButtonItem barButtonRightItemWithImageName:@"searchBtn" target:self action:@selector(searchClick)];
 
     //必要的设置, 如果没有设置可能导致内容显示不正常

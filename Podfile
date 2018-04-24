@@ -10,4 +10,7 @@ pod 'YYModel'
 pod 'MJExtension'
 pod 'MBProgressHUD'
 pod 'DZNEmptyDataSet'
+pod 'UMCCommon'
+pod 'UMCAnalytics'
+pod 'UMCSecurityPlugins'
 end

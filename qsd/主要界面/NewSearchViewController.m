@@ -29,6 +29,8 @@
 //@property (nonatomic, strong) NSMutableArray *dataArray; // 当前页面数据类
 @property (nonatomic, strong) NSMutableArray *searchArray; // 当前页面数据类
 @property(nonatomic,strong)UISearchBar *searchBar; // 搜索栏
+@property (nonatomic,assign) BOOL isSearch ;// 是否开始搜索;
+@property (nonatomic,strong) NSString * searchStr;// 搜索的文字
 
 @end
 
@@ -39,6 +41,7 @@ static  NSString * cell = @"newsCell";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     _page = 1;
+    _isSearch = NO;
     [self.view addSubview:self.newsTab];
     [self.navigationItem setHidesBackButton:YES]; // 设置返回按钮为隐藏
     self.navigationItem.titleView = self.searchBar; // 顶部搜索栏的设置
@@ -68,6 +71,8 @@ static  NSString * cell = @"newsCell";
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    _isSearch = YES;
+    _searchStr = searchText;
     if (searchBar.text.length == 0) {
         [self performSelector:@selector(hideKeyboardWithSearchBar:) withObject:searchBar afterDelay:0];
     }
@@ -136,10 +141,7 @@ static  NSString * cell = @"newsCell";
         }];
     }
     NSLog(@"输入参数%@",dic);
-    
- 
-    
-    
+
 }
 #pragma mark - lazy
 - (UITableView *)newsTab
@@ -169,7 +171,11 @@ static  NSString * cell = @"newsCell";
     return [UIColor whiteColor];
 }
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
-    return [UIImage imageNamed:@"AppBoot"];
+//    if (_isSearch && [self isBlankString:self.searchStr]) {
+//            return [UIImage imageNamed:@"searchEmpty"];
+//    }
+//    return nil;
+    return [UIImage imageNamed:@"searchEmpty"];
 }
 #pragma mark - UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -186,6 +192,12 @@ static  NSString * cell = @"newsCell";
 //    ArticleListModel * model = self.searchArray[indexPath.row];
     newscell.listModel = (ArticleListModel*)self.searchArray[indexPath.row];
     return newscell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NewsViewController * vc = [[NewsViewController alloc]init];
+    vc.model = self.searchArray[indexPath.row];//self.articleModel.articleType
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

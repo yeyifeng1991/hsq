@@ -23,6 +23,10 @@ PODS:
     - SDWebImage/Core (= 4.3.3)
   - SDWebImage/Core (4.3.3)
   - SVProgressHUD (2.2.5)
+  - UMCAnalytics (5.5.0):
+    - UMCCommon
+  - UMCCommon (1.5.0)
+  - UMCSecurityPlugins (1.0.6)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -34,6 +38,9 @@ DEPENDENCIES:
   - MJRefresh
   - SDWebImage
   - SVProgressHUD
+  - UMCAnalytics
+  - UMCCommon
+  - UMCSecurityPlugins
   - YYModel
 
 SPEC CHECKSUMS:
@@ -45,8 +52,11 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  UMCAnalytics: 4667788559a72f2fa5077117d1b8802a3b6eb6bb
+  UMCCommon: 82d21f4bb9532a5472cc533bbd8ed48aff376a14
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 0422dcdfda9510ba9f865ca7c7046527ed1f8698
+PODFILE CHECKSUM: 35c50ef6ecbf4f8caa29cbf2b648f01e76d3c559
 
 COCOAPODS: 1.4.0

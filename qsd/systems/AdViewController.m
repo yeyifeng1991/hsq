@@ -20,8 +20,9 @@
 @interface AdViewController ()
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic, strong)NSTimer *countDownTimer;
-@property (nonatomic,strong) AppStartConfigModel * model1 ;// 第一个model
-@property (nonatomic,strong) AppStartConfigModel * model2 ;// 第二个model
+@property (nonatomic,strong) AppStartConfigModel * sysmodel ;// 系统配置数据类
+@property (nonatomic,strong) AppStartConfigModel * startmodel ;// 启动页配置数据类
+@property (nonatomic,strong) AppStartConfigModel * colorModel; // 颜色配置数据类
 
 
 @end
@@ -42,10 +43,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    [self startAppConfig];
     [self createSubviews]; // 页面布局
     [self networkDetectionAndSetting]; // 检查网络状态
-    [self startAppConfig];
-    
+    NSLog(@"状态栏高度==%f导航栏高度==%f",STATUSBAR_HEIGHT,NAVIGATION_HEIGHT);
+
 }
 
 //网络检测与设置
@@ -85,11 +87,13 @@
 }
 - (void)createSubviews{
     //背景图，临时设置为开机动画，后面要更改为网络请求的图片
-    _backgroundImageView = KBACKGROUNDVIEW(@"AppBoot");
+//    _backgroundImageView = KBACKGROUNDVIEW(@"AppBoot");
+    _backgroundImageView = [[UIImageView alloc]init];
     UITapGestureRecognizer *tapGesture1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [_backgroundImageView addGestureRecognizer:tapGesture1];
     [self.view addSubview:_backgroundImageView];
     _backgroundImageView.frame = self.view.bounds;
+//    _backgroundImageView.frame = CGRectMake(0, 10, SCREEN_WIDTH, SCREEN_HEIGHT);
     _backgroundImageView.userInteractionEnabled = YES;
     
     
@@ -99,7 +103,7 @@
     [_closeBtn setTitle:@"5s" forState:UIControlStateNormal];
     [_closeBtn setTitleColor:RGBHex(0x3b3a3e) forState:UIControlStateNormal];
     _closeBtn.titleLabel.font = [UIFont systemFontOfSize:AdaptationWidth(14)];
-    [_closeBtn addTarget:self action:@selector(closeAdVC) forControlEvents:UIControlEventTouchUpInside];
+    [_closeBtn addTarget:self action:@selector(timerBtnClick) forControlEvents:UIControlEventTouchUpInside];
     _closeBtn.backgroundColor = [RGBHex(0xFFCCCCCC) colorWithAlphaComponent:0.5];
     _closeBtn.layer.cornerRadius = AdaptationHeight(25) / 2.0;
     _closeBtn.layer.masksToBounds = YES;
@@ -113,26 +117,66 @@
     _secondCountDown = 5;
     self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDownAction) userInfo:nil repeats:YES];
 }
-#pragma mark - 点击图片
+#pragma mark - 点击图片方法 启动图片逻辑  需要返回
 - (void)tapGesture:(id )sender
 {
-    NSLog(@"点击图片");
-    [self killNSTimer];
+  [self killNSTimer];
     // 点击图片
-    if (self.model2.url!=nil && ![self.model2.url isEqualToString:@"#"]) {
-        // 跳转webView
-        RootWebViewController * webVc = [[RootWebViewController alloc]init];
-        webVc.url = self.model2.url;
-//        [self presentViewController:webVc animated:YES completion:nil];
-        [self.navigationController pushViewController:webVc animated:YES];
+    
+     if (self.startmodel.url!=nil && ![self.startmodel.url isEqualToString:@"#"]) {
+     // 跳转webView
+     RootWebViewController * webVc = [[RootWebViewController alloc]init];
+     webVc.status = enterAppStarted;// 启动页状态
+     webVc.systemModel = self.sysmodel;
+         webVc.startModel = self.startmodel;
+     webVc.url = self.startmodel.url;
+     webVc.colorModel = self.colorModel;
+     webVc.isFirst = YES;
+     [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 //定时器执行方法
+#pragma mark - 定时器的方法
 - (void)countDownAction{
     _secondCountDown --;
     [_closeBtn setTitle:[NSString stringWithFormat:@"%@s",@(_secondCountDown)] forState:UIControlStateNormal];
     if (_secondCountDown == 0) {
+        [self killNSTimer];
+        [self sysConfigRootWebviewController];
+    }
+}
+#pragma mark - 倒计时按钮的绑定方法
+-(void)timerBtnClick
+{
+    [self sysConfigRootWebviewController];
+}
+#pragma mark - 倒计时和点击立即结束需要执行的方法
+-(void)sysConfigRootWebviewController
+{
+  
+    if ([self.sysmodel.value isEqualToString:@"True"] ) {
+        if (self.sysmodel.url!=nil && ![self.sysmodel.url isEqualToString:@"#"]) {
+            // 跳转webview
+            [self killNSTimer];
+            RootWebViewController * webVc = [[RootWebViewController alloc]init];
+             webVc.status = enterSysConfig;
+            webVc.colorModel = self.colorModel;
+            webVc.url = self.sysmodel.url;
+            webVc.hidesBottomBarWhenPushed = YES;
+            webVc.isFirst = YES;
+            //                    [self presentViewController:webVc animated:YES completion:nil];
+            [self.navigationController pushViewController:webVc animated:YES];
+        }
+    }
+    else
+    {
+        // 进入首页
+        /*
+         1.停止计时器
+         2.发送通知更改根式图
+         */
         [self closeAdVC];
+
     }
 }
 #pragma mark - 启动页面信息数据
@@ -141,8 +185,10 @@
     [[NetworkManager shareNetworkManager] GETUrl:[NSString stringWithFormat:@"%@%@",BaseUrl,GetAppConfig] parameters:@{@"format":@"json"} success:^(id responseObject) {
         NSMutableArray * resultArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
         [self.dataArray addObjectsFromArray:[AppStartConfigModel mj_objectArrayWithKeyValuesArray:resultArray]];
-         self.model1 = (AppStartConfigModel*)self.dataArray[0];
-           self.model2 = (AppStartConfigModel*)self.dataArray[1];
+         self.sysmodel = (AppStartConfigModel*)self.dataArray[0];
+         self.startmodel = (AppStartConfigModel*)self.dataArray[1];
+        self.colorModel = (AppStartConfigModel*)self.dataArray[2];
+        [_backgroundImageView sd_setImageWithURL:[NSURL URLWithString:self.startmodel.value] placeholderImage:[UIImage imageNamed:@"AppBoot"]];
         NSLog(@"返回数据%@",resultArray);
         /*
          {
@@ -159,21 +205,17 @@
          value = http://firstapp.weilianup.com/images/appAd.jpg;
          url = http://meimei.weilianupup.com/;
          remark = <null>;
+         },
+         {
+         id = 4;
+         key = WebViewTitleColor;
+         remark = "<null>";
+         url = "<null>";
+         value = "#FE5722";
          }
          */
         
-        if ([self.model1.value isEqualToString:@"True"]) {
-            if (self.model1.url!=nil && ![self.model1.url isEqualToString:@"#"]) {
-                // 跳转webview
-                [self killNSTimer];
-                RootWebViewController * webVc = [[RootWebViewController alloc]init];
-                webVc.url = self.model1.url;
-                webVc.hidesBottomBarWhenPushed = YES;
-                webVc.isFirst = YES;
-                //                    [self presentViewController:webVc animated:YES completion:nil];
-                [self.navigationController pushViewController:webVc animated:YES];
-            }
-        }
+      
         
     } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
         NSLog(@"调用失败%@",error);
@@ -181,10 +223,7 @@
     
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
 
-}
 - (NSMutableArray *)dataArray
 {
     if (nil == _dataArray) {
@@ -192,6 +231,7 @@
     }
     return  _dataArray;
 }
+
 - (void)closeAdVC{
     [self killNSTimer];
     [self postNoticicationHome]; // 发送通知
@@ -199,7 +239,6 @@
 -(void)postNoticicationHome
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRootViewController" object:@"fromAdVC"];
-
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

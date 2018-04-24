@@ -30,6 +30,9 @@
 #import "MBProgressHUD.h"
 #import "connectedCell.h" // 相关新闻cell
 #import "RootWebViewController.h"
+#import "AnotherViewController.h"
+//#import "XHWebVC.h"
+#import "RootWebViewController.h"
 @interface NewsViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
 
 @property(nonatomic,strong) UITableView * newsTab;
@@ -51,16 +54,43 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"新闻页面";
+    self.navigationItem.title = @"金迅达";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonLeftItemWithImageName:@"back" target:self action:@selector(backViewController)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self getCustomBtn]];
     [self.view addSubview:self.webView];
+}
+-(UIButton *)getCustomBtn
+{
+    
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack1"]];
+    imageV.frame = CGRectMake(0, 10, 13.5, 25);
+    imageV.userInteractionEnabled = YES;
+    imageV.contentMode = UIViewContentModeScaleToFill;
+    
+    UIButton * baseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    baseBtn.frame = CGRectMake(0, 0, 84, 44);
+    //    [self.backBtn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [baseBtn addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel * backLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 40, 25)];
+    backLab.textColor = [UIColor whiteColor];
+    backLab.text = @"返回";
+    backLab.font = [UIFont systemFontOfSize:18];
+    [baseBtn addSubview:imageV];
+    [baseBtn addSubview:backLab];
+    
+    
+    return baseBtn;
+  
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = NO;
 
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.navigationBar.translucent = YES;
 }
 -(void)backViewController
 {
@@ -149,6 +179,7 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
                              @"AdAppType":@"app",
                              @"PageIndex":@"1",
                              @"format":@"json",
+                              @"ArticleType":self.articleModel.articleType
                              };
      [[NetworkManager shareNetworkManager] GETUrl:[NSString stringWithFormat:@"%@%@",BaseUrl,GetAdList] parameters:addic success:^(id responseObject) {
      NSMutableDictionary * result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
@@ -237,21 +268,7 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
     titleLabel.frame = CGRectMake((SCREEN_WIDTH - self.textSize.width) / 2, -self.textSize.height-10, self.textSize.width, self.textSize.height);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.webView.scrollView addSubview:titleLabel];
-    
-    /*
-     <__NSArrayM 0x17024daa0>(
-     <UIWebBrowserView: 0x101031400; frame = (0 0; 315 507); text = '网上无门槛贷款，大多是骗局，江苏省反通讯网络诈骗中...'; gestureRecognizers = <NSArray: 0x17005ef60>; layer = <UIWebLayer: 0x174220000>>,
-     <UIImageView: 0x100564060; frame = (-7 383.5; 329 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = <CALayer: 0x170226f00>>,
-     <UILabel: 0x1006bb5b0; frame = (11.757 -64.8945; 351.486 54.8945); text = '用户急用钱心理成骗子“利器”，贷款骗局升级'; userInteractionEnabled = NO; layer = <_UILabelLayer: 0x174292930>>
-     )
-     */
-    /*
-     <__NSArrayM 0x1704434b0>(
-     <UIWebBrowserView: 0x101232800; frame = (0 0; 295 475); text = '网上无门槛贷款，大多是骗局，江苏省反通讯网络诈骗中...'; gestureRecognizers = <NSArray: 0x17025ad90>; layer = <UIWebLayer: 0x17022c120>>,
-     <UIImageView: 0x100585530; frame = (-7 426.5; 329 2.5); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = <CALayer: 0x174231b40>>,
-     <UILabel: 0x1006902b0; frame = (11.757 -64.8945; 351.486 54.8945); text = '用户急用钱心理成骗子“利器”，贷款骗局升级'; userInteractionEnabled = NO; layer = <_UILabelLayer: 0x17009b4e0>>
-     
-     */
+
     CGSize  fittingSize = [webView sizeThatFits:CGSizeZero];
     webView.frame = CGRectMake(0, 0, fittingSize.width, fittingSize.height);
     [self.newsTab beginUpdates];
@@ -316,21 +333,25 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RootWebViewController * webVc = [[RootWebViewController alloc]init];
     if (indexPath.section == 0) {
-        adModel * model = self.adArray[indexPath.row];
-        if ([model.adHref isEqualToString:@"#"]) {
-            return;
-        }
-        webVc.url = model.adPicUrl;
-        [self.navigationController pushViewController:webVc animated:YES];
-
+        RootWebViewController * webVc = [[RootWebViewController alloc]init];
+         adModel * model = self.adArray[indexPath.row];
+         if (![model.adHref isEqualToString:@"#"] && model.adHref != nil ) {
+             webVc.url = model.adHref;
+             webVc.status = enterAppStarted;
+             webVc.hidesBottomBarWhenPushed = YES;
+             webVc.isFirst = YES;
+             //                    [self presentViewController:webVc animated:YES completion:nil];
+             [self.navigationController pushViewController:webVc animated:YES];
+         }
+       
+       
     }
     else if (indexPath.section == 2)
     {
-        ArticleListModel* model = self.conNewsArray[indexPath.row];
-
-
+        AnotherViewController * vc = [[AnotherViewController alloc]init];
+        vc.model = ( ArticleListModel* )self.conNewsArray[indexPath.row];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

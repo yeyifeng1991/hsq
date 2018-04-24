@@ -117,6 +117,7 @@
 #define AdaptationWidth(a) ceilf(a * (SCREEN_WIDTH / 375))
 // 根据屏幕宽度适配高度,参数a是在iphone 6(即667高度)情况下的高
 #define AdaptationHeight(a) ceilf(a * (SCREEN_HEIGHT / 667))
+#define kIs_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #pragma mark - 常用代码，需求简单，不必要创建基类
 //初始化imageView

@@ -28,6 +28,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    
     // 设置整个页面的导航色和文字风格
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
         [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#FE5722"]];
@@ -36,25 +37,19 @@
     }
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"appVersion"];
-    if (version == nil) {
-        [LaunchIntroductionView sharedWithImages:@[@"launch1",@"launch2",@"launch3"] buttonImage:nil buttonFrame:CGRectMake(kScreen_width/2 - 150, kScreen_height - 190, 300, 150)];
-        ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
-        self.window.rootViewController = nav;
-    }
-     else
-     {
-         AdViewController *adVC = [[AdViewController alloc] init];
-         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
-         self.window.rootViewController = nav;
-     }
-   
+//
+//     AdViewController *adVC = [[AdViewController alloc] init];
+//     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
+//     self.window.rootViewController = nav;
+
     
+    ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRootViewController:) name:@"changeRootViewController" object:nil];
 
-   /*
+
     #if 1
     [LaunchIntroductionView sharedWithImages:@[@"launch1",@"launch2",@"launch3"] buttonImage:nil buttonFrame:CGRectMake(kScreen_width/2 - 150, kScreen_height - 190, 300, 150)];
     //    [LaunchIntroductionView sharedWithImages:@[@"launch1",@"launch2",@"launch3"]];
@@ -68,7 +63,7 @@
     //只有在存在该storyboard时才调用该方法，否则会引起crash
     [LaunchIntroductionView sharedWithStoryboard:@"Main" images:@[@"launch0.jpg",@"launch1.jpg",@"launch2.jpg",@"launch3"] buttonImage:@"login" buttonFrame:CGRectMake(kScreen_width/2 - 551/4, kScreen_height - 150, 551/2, 45)];
     #endif
-    */
+    
 
     return YES;
 }

@@ -20,8 +20,9 @@
 #import "ArticleListModel.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
-
-@interface ZJTestViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "UIScrollView+EmptyDataSet.h"
+#import "XHWebVC.h"
+@interface ZJTestViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
     NSInteger _page;
     NSInteger _articleType;
@@ -47,7 +48,7 @@ static  NSString * cell = @"newsCell";
     [self.view addSubview:self.newsTab];
     self.newsTab.mj_header =[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.newsTab.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    [self.newsTab.mj_header beginRefreshing];
+    
 }
 
 - (void)zj_viewDidLoadForIndex:(NSInteger)index {
@@ -101,6 +102,9 @@ static  NSString * cell = @"newsCell";
         _newsTab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-40-64) style:UITableViewStylePlain];
         _newsTab.dataSource = self;
         _newsTab.delegate = self;
+        _newsTab.emptyDataSetSource = self;
+        _newsTab.emptyDataSetDelegate = self;
+        _newsTab.tableFooterView = [UIView new];
         _newsTab.separatorColor = [UIColor clearColor];
         [_newsTab registerNib:[UINib nibWithNibName:@"NewsCell" bundle:nil] forCellReuseIdentifier:cell];
     }
@@ -138,14 +142,34 @@ static  NSString * cell = @"newsCell";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NewsViewController * vc = [[NewsViewController alloc]init];
+    ArticleListModel * model = nil;
     if (self.dataArray.count>0) {
-        vc.model = self.dataArray[indexPath.row];//self.articleModel.articleType
+        model = self.dataArray[indexPath.row];//self.articleModel.articleType
     }
-    [self.navigationController pushViewController:vc animated:YES];
+    if (model.topicUrl != nil) { //跳转webview
+        XHWebVC * webVc = [[XHWebVC alloc]init];
+        webVc.apPicUrl = model.topicUrl;
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
+    else // 跳详情
+    {
+        NewsViewController * newsVc = [[NewsViewController alloc]init];
+        newsVc.model = model;
+        [self.navigationController pushViewController:newsVc animated:YES];
+    }
+
+    
     
 }
-
+-(UIColor*)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIColor whiteColor];
+}
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    return [UIImage imageNamed:@"Empty"];
+    
+}
  // 使用系统的生命周期方法
  - (void)viewWillAppear:(BOOL)animated {
       [super viewWillAppear:animated];
