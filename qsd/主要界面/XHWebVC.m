@@ -26,16 +26,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"金讯达";
     [self.view addSubview:self.wkView];
-   // [self configUI];
-    [self configMenuItem];
 }
 
-//- (void)setApPicUrl:(NSString *)apPicUrl
-//{
-//    _apPicUrl = apPicUrl;
-//    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_apPicUrl]];
-//    [self.wkView loadRequest:request];
-//}
+- (void)setApPicUrl:(NSString *)apPicUrl
+{
+    _apPicUrl = apPicUrl;
+    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_apPicUrl]];
+    [self.wkView loadRequest:request];
+}
 //- (void)setNameDic:(NSDictionary *)nameDic
 //{
 //    self.navigationItem.title = [nameDic allKeys].lastObject ;
@@ -65,22 +63,7 @@
     return _wkView;
 }
 
-- (void)configMenuItem {
-    // 导航栏的菜单按钮
-    UIButton *menuBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    menuBtn.titleLabel.font = XHFont(14);
-    [menuBtn setImage:[UIImage imageNamed:@"刷新"] forState:UIControlStateNormal];
-    [menuBtn addTarget:self action:@selector(menuBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
-    self.navigationItem.rightBarButtonItem = menuItem;
-}
 
- 
-// 菜单按钮点击
-- (void)menuBtnPressed:(id)sender {
-    [self.wkView reload];
-}
 // 计算wkWebView进度条
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == self.wkView && [keyPath isEqualToString:@"estimatedProgress"]) {
@@ -99,7 +82,18 @@
 
 // 记得取消监听
 - (void)dealloc {
-    [self.wkView removeObserver:self forKeyPath:@"estimatedProgress"];
+    @try {
+        
+        [self.wkView removeObserver:self forKeyPath:@"estimatedProgress" context:nil];
+        [self.wkView setNavigationDelegate:nil];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"WKWebview中手动拿到的错误Exception: %@", exception);
+    }
+    @finally  {
+        // Added to show finally works as well
+    }
+    
 }
 
 - (void)setLoadCount:(NSUInteger)loadCount {

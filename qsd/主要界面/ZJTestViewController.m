@@ -23,6 +23,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "XHWebVC.h"
 #import "RootWebViewController.h"
+#import "XHWebVC.h"
 @interface ZJTestViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
     NSInteger _page;
@@ -144,25 +145,22 @@ static  NSString * cell = @"newsCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-   /*
-    RootWebViewController * webVc = [[RootWebViewController alloc]init];
-    webVc.status = enterAppStarted;// 启动页状态
-    webVc.systemModel = self.sysmodel;
-    webVc.startModel = self.startmodel;
-    webVc.url = self.startmodel.url;
-    webVc.colorModel = self.colorModel;
-    webVc.isFirst = YES;
-    [self.navigationController pushViewController:webVc animated:YES];
-    */
-    RootWebViewController * webVc = [[RootWebViewController alloc]init];
+  
     ArticleListModel * model = self.dataArray[indexPath.row];
     if (![model.topicUrl isEqualToString:@"#"] && model.topicUrl != nil ) {
+        RootWebViewController * webVc = [[RootWebViewController alloc]init];
         webVc.url = model.topicUrl;
         webVc.status = enterAppStarted;
 //        webVc.hidesBottomBarWhenPushed = YES;
         webVc.isFirst = NO;
-        //                    [self presentViewController:webVc animated:YES completion:nil];
         [self.navigationController pushViewController:webVc animated:YES];
+        /*
+        
+         */
+//                XHWebVC * vc = [[XHWebVC alloc]init];
+//                vc.apPicUrl = model.topicUrl;
+//                [self.navigationController pushViewController:vc animated:YES];
+
     }
     
     else // 跳详情
@@ -243,7 +241,7 @@ static  NSString * cell = @"newsCell";
     [self.newsTab setDelegate:nil];
     @try {
         
-      
+
     }
     @catch (NSException *exception) {
         NSLog(@"ZJTestViewControllerException: %@", exception);

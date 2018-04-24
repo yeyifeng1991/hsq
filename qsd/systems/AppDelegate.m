@@ -28,25 +28,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRootViewController:) name:@"changeRootViewController" object:nil];
+
     // 设置整个页面的导航色和文字风格
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
         [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#FE5722"]];
         [[UINavigationBar appearance] setTitleTextAttributes:
          [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@ "HelveticaNeue-CondensedBlack" size:18.0], NSFontAttributeName,nil]];
     }
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-//     AdViewController *adVC = [[AdViewController alloc] init];
-//     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
-//     self.window.rootViewController = nav;
+     AdViewController *adVC = [[AdViewController alloc] init];
+     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
+     self.window.rootViewController = nav;
 
-    ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
-    self.window.rootViewController = nav;
+//    ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+//    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRootViewController:) name:@"changeRootViewController" object:nil];
 
 
     #if 1

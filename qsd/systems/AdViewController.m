@@ -135,10 +135,7 @@
      webVc.isFirst = YES;
      [self.navigationController pushViewController:webVc animated:YES];
     }
-//    else
-//    {
-//        [self closeAdVC];
-//    }
+
     
 }
 //定时器执行方法

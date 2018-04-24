@@ -28,16 +28,13 @@
 @implementation RootWebViewController
 
 - (void)dealloc{
+    NSLog(@"--dealloc方法执行---");
     @try {
  
-        [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-        if (self.isFirst) {
-            [_webView removeObserver:self forKeyPath:@"changeRootViewController"];
-            
-        }
-        [_webView removeObserver:self forKeyPath:@"title"];
-        [_webView setNavigationDelegate:nil];
-        [_webView setUIDelegate:nil];
+        [self.webView removeObserver:self forKeyPath:@"estimatedProgress" context:@"Progress"];
+        [self.webView removeObserver:self forKeyPath:@"title" context:@"title1"];
+        [self.webView setNavigationDelegate:nil];
+        [self.webView setUIDelegate:nil];
     }
     @catch (NSException *exception) {
         NSLog(@"WKWebview中手动拿到的错误Exception: %@", exception);
@@ -192,7 +189,10 @@
 -(void)HomePressed
 {
         if ( self.page >0) {         //得到栈里面的list
-            [self createWebViewWithURL:self.url];
+//            [self createWebViewWithURL:self.url];
+            
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
+//            [self.webView reload];
             self.page = -1;// 记录参数修改为0
         }
 
@@ -237,8 +237,8 @@
 //        make.top.equalTo(self.progressView.mas_bottom);
 //        make.left.right.bottom.equalTo(self.view);
 //    }];
-    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:@"Progress"];
+    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:@"title1"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
 }
 
@@ -274,16 +274,10 @@
             self.titleLab.text = self.webView.title;
             
         }
-        else
-        {
-            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-            
-        }
+        
     }
     
-    else{
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
+   
 }
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
@@ -332,28 +326,18 @@
 
     decisionHandler(WKNavigationActionPolicyAllow);
 }
-
-- (void)viewWillAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = YES;
     
 }
--(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBarHidden = NO;
-    [_webView setNavigationDelegate:nil];
-    [_webView setUIDelegate:nil];
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    if (self.isFirst) {
-        [_webView removeObserver:self forKeyPath:@"changeRootViewController"];
-        
-    }
-    [_webView removeObserver:self forKeyPath:@"title"];
-}
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
 - (void)onBack {
     
 }

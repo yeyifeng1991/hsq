@@ -334,18 +334,19 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        RootWebViewController * webVc = [[RootWebViewController alloc]init];
-         adModel * model = self.adArray[indexPath.row];
+        adModel * model = self.adArray[indexPath.row];
+
          if (![model.adHref isEqualToString:@"#"] && model.adHref != nil ) {
-             webVc.url = model.adHref;
-             webVc.status = enterAppStarted;
-             webVc.hidesBottomBarWhenPushed = YES;
-             webVc.isFirst = NO;
-             //                    [self presentViewController:webVc animated:YES completion:nil];
-             [self.navigationController pushViewController:webVc animated:YES];
+//             RootWebViewController * webVc = [[RootWebViewController alloc]init];
+//             webVc.url = model.adHref;
+//             webVc.status = enterAppStarted;
+//             webVc.hidesBottomBarWhenPushed = YES;
+//             webVc.isFirst = NO;
+//             //                    [self presentViewController:webVc animated:YES completion:nil];
+//             [self.navigationController pushViewController:webVc animated:YES];
+             
          }
-       
-       
+
     }
     else if (indexPath.section == 2)
     {

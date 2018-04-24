@@ -329,8 +329,8 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RootWebViewController * webVc = [[RootWebViewController alloc]init];
     if (indexPath.section == 0) {
+        RootWebViewController * webVc = [[RootWebViewController alloc]init];
         adModel * model = self.adArray[indexPath.row];
         if ([model.adHref isEqualToString:@"#"]) {
             return;
