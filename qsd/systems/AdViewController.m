@@ -120,10 +120,11 @@
 #pragma mark - 点击图片方法 启动图片逻辑  需要返回
 - (void)tapGesture:(id )sender
 {
-  [self killNSTimer];
+
     // 点击图片
     
      if (self.startmodel.url!=nil && ![self.startmodel.url isEqualToString:@"#"]) {
+           [self killNSTimer];
      // 跳转webView
      RootWebViewController * webVc = [[RootWebViewController alloc]init];
      webVc.status = enterAppStarted;// 启动页状态
@@ -134,6 +135,11 @@
      webVc.isFirst = YES;
      [self.navigationController pushViewController:webVc animated:YES];
     }
+//    else
+//    {
+//        [self closeAdVC];
+//    }
+    
 }
 //定时器执行方法
 #pragma mark - 定时器的方法
@@ -141,7 +147,7 @@
     _secondCountDown --;
     [_closeBtn setTitle:[NSString stringWithFormat:@"%@s",@(_secondCountDown)] forState:UIControlStateNormal];
     if (_secondCountDown == 0) {
-        [self killNSTimer];
+//        [self killNSTimer];
         [self sysConfigRootWebviewController];
     }
 }

@@ -37,12 +37,11 @@
     }
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-//
+
 //     AdViewController *adVC = [[AdViewController alloc] init];
 //     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
 //     self.window.rootViewController = nav;
 
-    
     ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
     self.window.rootViewController = nav;

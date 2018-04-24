@@ -11,6 +11,7 @@
 #import "common.h"
 #import "anotherRootWebVC.h"
 #import "SVProgressHUD+XH.h"
+#import "UIColor+Hex.h"
 @interface RootWebViewController ()<WKUIDelegate, WKNavigationDelegate>
 @property(nonatomic,strong) UIBarButtonItem *backItem;
 @property (nonatomic,strong) UILabel * titleLab;
@@ -27,10 +28,24 @@
 @implementation RootWebViewController
 
 - (void)dealloc{
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-    [_webView removeObserver:self forKeyPath:@"title"];
-    [_webView setNavigationDelegate:nil];
-    [_webView setUIDelegate:nil];
+    @try {
+ 
+        [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+        if (self.isFirst) {
+            [_webView removeObserver:self forKeyPath:@"changeRootViewController"];
+            
+        }
+        [_webView removeObserver:self forKeyPath:@"title"];
+        [_webView setNavigationDelegate:nil];
+        [_webView setUIDelegate:nil];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"WKWebview中手动拿到的错误Exception: %@", exception);
+    }
+    @finally  {
+        // Added to show finally works as well
+    }
+  
 }
 //根据颜色生成图片
 -(UIImage *)createImageWithColor:(UIColor*)color
@@ -45,21 +60,18 @@
     return theImage;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-   
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.page = -1;
 //    self.view.backgroundColor = CCXColorWithHex(@"#ffffff");
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.clipsToBounds = NO;
+//    [self setClearNavigationBar];
     [self setBackNavigationBarItem];
     [self createWebViewWithURL:self.url];
 
 }
+
 #pragma mark - 自定义方法
 /**
  *   使导航栏透明
@@ -82,14 +94,15 @@
  */
 - (void)setBackNavigationBarItem{
     UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
-    baseView.backgroundColor = [self colorWithHexString:self.colorModel.value];
+    baseView.backgroundColor = [UIColor colorWithHexString:@"#FE5722"];
+//    baseView.backgroundColor = [self colorWithHexString:self.colorModel.value];
     self.titleLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-200)/2, 30, 200, 25)];
     self.titleLab.font = [UIFont systemFontOfSize:18];
     self.titleLab.textAlignment = NSTextAlignmentCenter;
     self.titleLab.textColor = [UIColor whiteColor];
     [baseView addSubview:self.titleLab];
     
-    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack1"]];
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack"]];
     imageV.frame = CGRectMake(12, 30, 13.5, 25);
     imageV.userInteractionEnabled = YES;
     imageV.contentMode = UIViewContentModeScaleToFill;
@@ -164,8 +177,11 @@
             }
             else // 进入home界面
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRootViewController" object:@"fromAdVC"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                if (self.isFirst) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeRootViewController" object:@"fromAdVC"];
+
+                }
+//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }
@@ -175,7 +191,6 @@
 #pragma mark - 首页刷新按钮
 -(void)HomePressed
 {
-        NSLog(@"记录在加载个数=%ld代理载入栈个数%ld",self.page,self.webView.backForwardList.backList.count);
         if ( self.page >0) {         //得到栈里面的list
             [self createWebViewWithURL:self.url];
             self.page = -1;// 记录参数修改为0
@@ -183,8 +198,9 @@
 
 }
 - (void)createWebViewWithURL:(NSString *)url{
-    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0.5)];
+    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0)];
     self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
+    self.progressView.trackTintColor = [UIColor clearColor];
     [self.view addSubview:self.progressView];
 //    [self.progressView makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.left.right.equalTo(self.view);
@@ -222,7 +238,7 @@
 //        make.left.right.bottom.equalTo(self.view);
 //    }];
     [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
 }
 
@@ -317,7 +333,26 @@
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBarHidden = YES;
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBarHidden = NO;
+    [_webView setNavigationDelegate:nil];
+    [_webView setUIDelegate:nil];
+    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    if (self.isFirst) {
+        [_webView removeObserver:self forKeyPath:@"changeRootViewController"];
+        
+    }
+    [_webView removeObserver:self forKeyPath:@"title"];
+}
 
 - (void)onBack {
     

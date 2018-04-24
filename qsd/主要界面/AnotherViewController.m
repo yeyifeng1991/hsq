@@ -54,8 +54,32 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
     [super viewDidLoad];
     self.navigationItem.title = @"金迅达";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonLeftItemWithImageName:@"back" target:self action:@selector(backViewController)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self getCustomBtn]];
     [self.view addSubview:self.webView];
+}
+-(UIButton *)getCustomBtn
+{
+    
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack"]];
+    imageV.frame = CGRectMake(0, 10, 13.5, 25);
+    imageV.userInteractionEnabled = YES;
+    imageV.contentMode = UIViewContentModeScaleToFill;
+    
+    UIButton * baseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    baseBtn.frame = CGRectMake(0, 0, 84, 44);
+    //    [self.backBtn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [baseBtn addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel * backLab = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 40, 25)];
+    backLab.textColor = [UIColor whiteColor];
+    backLab.text = @"返回";
+    backLab.font = [UIFont systemFontOfSize:18];
+    [baseBtn addSubview:imageV];
+    [baseBtn addSubview:backLab];
+    
+    
+    return baseBtn;
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {

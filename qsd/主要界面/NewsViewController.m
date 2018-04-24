@@ -62,7 +62,7 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 -(UIButton *)getCustomBtn
 {
     
-    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack1"]];
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bigBack"]];
     imageV.frame = CGRectMake(0, 10, 13.5, 25);
     imageV.userInteractionEnabled = YES;
     imageV.contentMode = UIViewContentModeScaleToFill;
@@ -340,7 +340,7 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
              webVc.url = model.adHref;
              webVc.status = enterAppStarted;
              webVc.hidesBottomBarWhenPushed = YES;
-             webVc.isFirst = YES;
+             webVc.isFirst = NO;
              //                    [self presentViewController:webVc animated:YES completion:nil];
              [self.navigationController pushViewController:webVc animated:YES];
          }

@@ -195,8 +195,10 @@
     
 }
 - (void)createWebViewWithURL:(NSString *)url{
-    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0.5)];
+    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0)];
+//    self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
     self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
+    self.progressView.trackTintColor = [UIColor whiteColor];
     [self.view addSubview:self.progressView];
     //    [self.progressView makeConstraints:^(MASConstraintMaker *make) {
     //        make.top.left.right.equalTo(self.view);
@@ -220,7 +222,7 @@
     
     /**网页*/
     //    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
-    self.webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 64.5, SCREEN_WIDTH, SCREEN_HEIGHT-64) configuration:config];
+    self.webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64) configuration:config];
     [self.webView.configuration.userContentController addUserScript:noneSelectScript];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;

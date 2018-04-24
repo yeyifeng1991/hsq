@@ -22,6 +22,7 @@
 #import "MJRefresh.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "XHWebVC.h"
+#import "RootWebViewController.h"
 @interface ZJTestViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
     NSInteger _page;
@@ -48,8 +49,8 @@ static  NSString * cell = @"newsCell";
     [self.view addSubview:self.newsTab];
     self.newsTab.mj_header =[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.newsTab.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    
 }
+
 
 - (void)zj_viewDidLoadForIndex:(NSInteger)index {
 
@@ -142,15 +143,28 @@ static  NSString * cell = @"newsCell";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ArticleListModel * model = nil;
-    if (self.dataArray.count>0) {
-        model = self.dataArray[indexPath.row];//self.articleModel.articleType
-    }
-    if (model.topicUrl != nil) { //跳转webview
-        XHWebVC * webVc = [[XHWebVC alloc]init];
-        webVc.apPicUrl = model.topicUrl;
+    
+   /*
+    RootWebViewController * webVc = [[RootWebViewController alloc]init];
+    webVc.status = enterAppStarted;// 启动页状态
+    webVc.systemModel = self.sysmodel;
+    webVc.startModel = self.startmodel;
+    webVc.url = self.startmodel.url;
+    webVc.colorModel = self.colorModel;
+    webVc.isFirst = YES;
+    [self.navigationController pushViewController:webVc animated:YES];
+    */
+    RootWebViewController * webVc = [[RootWebViewController alloc]init];
+    ArticleListModel * model = self.dataArray[indexPath.row];
+    if (![model.topicUrl isEqualToString:@"#"] && model.topicUrl != nil ) {
+        webVc.url = model.topicUrl;
+        webVc.status = enterAppStarted;
+//        webVc.hidesBottomBarWhenPushed = YES;
+        webVc.isFirst = NO;
+        //                    [self presentViewController:webVc animated:YES completion:nil];
         [self.navigationController pushViewController:webVc animated:YES];
     }
+    
     else // 跳详情
     {
         NewsViewController * newsVc = [[NewsViewController alloc]init];
@@ -174,7 +188,7 @@ static  NSString * cell = @"newsCell";
  - (void)viewWillAppear:(BOOL)animated {
       [super viewWillAppear:animated];
      self.navigationController.navigationBar.translucent = YES;
-
+//     self.navigationController.navigationBar.hidden = NO;
      _articleType = self.zj_currentIndex+1;
      [self loadNewData];
  }
@@ -184,13 +198,8 @@ static  NSString * cell = @"newsCell";
  NSLog(@"viewDidAppear-----%ld", self.zj_currentIndex);
  
  }
- 
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- NSLog(@"viewWillDisappear-----%ld", self.zj_currentIndex);
- 
- }
- 
+
+
  - (void)viewDidDisappear:(BOOL)animated {
  [super viewDidDisappear:animated];
  NSLog(@"viewDidDisappear--------%ld", self.zj_currentIndex);
@@ -231,7 +240,17 @@ static  NSString * cell = @"newsCell";
 
 - (void)dealloc
 {
-//    NSLog(@"%@-----test---销毁", self.description);
+    [self.newsTab setDelegate:nil];
+    @try {
+        
+      
+    }
+    @catch (NSException *exception) {
+        NSLog(@"ZJTestViewControllerException: %@", exception);
+    }
+    @finally  {
+        // Added to show finally works as well
+    }
 }
 
 - (void)didReceiveMemoryWarning {
