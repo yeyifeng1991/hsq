@@ -185,6 +185,7 @@ static  NSString * cell = @"newsCell";
  // 使用系统的生命周期方法
  - (void)viewWillAppear:(BOOL)animated {
       [super viewWillAppear:animated];
+     
      self.navigationController.navigationBar.translucent = YES;
 //     self.navigationController.navigationBar.hidden = NO;
      _articleType = self.zj_currentIndex+1;

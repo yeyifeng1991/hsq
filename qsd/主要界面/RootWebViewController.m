@@ -153,7 +153,7 @@
 #pragma mark - 返回按钮事件
 -(void)BarbuttonClick:(UIButton*)button
 {
-    if (_webView.backForwardList.backList.count > 0){
+    if (self.webView.backForwardList.backList.count > 0){
         [self.webView goBack];
     } else {
         if (self.status == enterSysConfig) // 从第一种方式进入,不可以返回
@@ -190,10 +190,11 @@
 {
         if ( self.page >0) {         //得到栈里面的list
 //            [self createWebViewWithURL:self.url];
-            
+            self.page = -1;// 记录参数修改为-1
+            [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject];
+
             [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
-//            [self.webView reload];
-            self.page = -1;// 记录参数修改为0
+            
         }
 
 }
@@ -271,6 +272,10 @@
     else if([keyPath isEqualToString:@"title"])
     {
         if (object == self.webView) {
+            if (self.webView.title.length>7) {
+                self.titleLab.text = [self.webView.title substringToIndex:7];//截取下标7之前的字符串
+
+            }
             self.titleLab.text = self.webView.title;
             
         }
@@ -284,7 +289,7 @@
 {
 //       self.page ++;
 //    NSLog(@"进行加加的操作%ld",self.page);
-    if ( navigationAction.navigationType==WKNavigationTypeBackForward) {
+    if ( navigationAction.navigationType== WKNavigationTypeBackForward) {
         self.page --; // 返回操作
     }
     else
