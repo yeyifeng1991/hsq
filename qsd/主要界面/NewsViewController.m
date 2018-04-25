@@ -54,7 +54,8 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"金迅达";
+    self.navigationItem.title = @"金讯达";
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self getCustomBtn]];
     [self.view addSubview:self.webView];
@@ -128,15 +129,19 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
      self.textSize = [self sizeForNoticeTitle:self.articleModel.articleName font:[UIFont systemFontOfSize:23]];
      //内容插入
      self.webView.scrollView.contentInset = UIEdgeInsetsMake(self.textSize.height+20, 0,0,0);
+//         self.webView.scalesPageToFit = YES;
      //偏移量=插入内容高度
     self.webView.scrollView.contentOffset = CGPointMake(0, -(self.textSize.height+20));
      [self.view addSubview:self.newsTab];
      [self.webView loadHTMLString:self.articleModel.articleContent baseURL:nil];
+         [SVProgressHUD dismiss];
      
      } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
      NSLog(@"失败%@",error);
-     
+         [SVProgressHUD dismiss];
+
      }];
+     
      
  
  }
@@ -334,17 +339,14 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        adModel * model = self.adArray[indexPath.row];
-
+         adModel * model = self.adArray[indexPath.row];
          if (![model.adHref isEqualToString:@"#"] && model.adHref != nil ) {
-//             RootWebViewController * webVc = [[RootWebViewController alloc]init];
-//             webVc.url = model.adHref;
-//             webVc.status = enterAppStarted;
-//             webVc.hidesBottomBarWhenPushed = YES;
-//             webVc.isFirst = NO;
-//             //                    [self presentViewController:webVc animated:YES completion:nil];
-//             [self.navigationController pushViewController:webVc animated:YES];
-             
+             RootWebViewController * webVc = [[RootWebViewController alloc]init];
+             webVc.url = model.adHref;
+             webVc.status = enterAppStarted;
+             webVc.hidesBottomBarWhenPushed = YES;
+             webVc.isFirst = NO;
+             [self.navigationController pushViewController:webVc animated:YES];
          }
 
     }

@@ -61,6 +61,8 @@
 		4C07254F208DAB15006A20A3 /* connectedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C07254D208DAB15006A20A3 /* connectedCell.m */; };
 		4C072550208DAB15006A20A3 /* connectedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C07254E208DAB15006A20A3 /* connectedCell.xib */; };
 		4C072553208DC55C006A20A3 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C072552208DC55C006A20A3 /* UIColor+Hex.m */; };
+		4C4061632090146B005C71E5 /* titleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4061622090146B005C71E5 /* titleModel.m */; };
+		4C4061662090539C005C71E5 /* XHRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4061652090539B005C71E5 /* XHRefreshHeader.m */; };
 		A53ECCF835EE76DC30EFC085 /* libPods-qsd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B7EB7CFE08AAA880E3FC6D /* libPods-qsd.a */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +176,10 @@
 		4C07254E208DAB15006A20A3 /* connectedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = connectedCell.xib; sourceTree = "<group>"; };
 		4C072551208DC557006A20A3 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		4C072552208DC55C006A20A3 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		4C4061612090146B005C71E5 /* titleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = titleModel.h; sourceTree = "<group>"; };
+		4C4061622090146B005C71E5 /* titleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = titleModel.m; sourceTree = "<group>"; };
+		4C4061642090539B005C71E5 /* XHRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHRefreshHeader.h; sourceTree = "<group>"; };
+		4C4061652090539B005C71E5 /* XHRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHRefreshHeader.m; sourceTree = "<group>"; };
 		892CABC25A16B951C4CAD1B6 /* Pods-qsd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qsd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-qsd/Pods-qsd.debug.xcconfig"; sourceTree = "<group>"; };
 		E6B7EB7CFE08AAA880E3FC6D /* libPods-qsd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-qsd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -214,7 +220,7 @@
 				4C0724BF2089BF34006A20A3 /* Tools */,
 				4C0724B42089B5CD006A20A3 /* common */,
 				4C07246C208983AB006A20A3 /* 滚动视图 */,
-				4C07246220897F60006A20A3 /* systems */,
+				4C07246220897F60006A20A3 /* 启动界面 */,
 				4C0724A92089922C006A20A3 /* 滚动条+颜色渐变 效果 */,
 				4C072548208D901B006A20A3 /* 主要界面 */,
 				4C0724AE20899BB2006A20A3 /* Models */,
@@ -228,7 +234,7 @@
 			path = qsd;
 			sourceTree = "<group>";
 		};
-		4C07246220897F60006A20A3 /* systems */ = {
+		4C07246220897F60006A20A3 /* 启动界面 */ = {
 			isa = PBXGroup;
 			children = (
 				4C07246320897F91006A20A3 /* LaunchIntroductionView.h */,
@@ -238,7 +244,7 @@
 				4C07244C2089785A006A20A3 /* AppDelegate.h */,
 				4C07244D2089785A006A20A3 /* AppDelegate.m */,
 			);
-			path = systems;
+			path = "启动界面";
 			sourceTree = "<group>";
 		};
 		4C07246C208983AB006A20A3 /* 滚动视图 */ = {
@@ -311,6 +317,8 @@
 				4C07250B208B169E006A20A3 /* AppStartConfigModel.m */,
 				4C07250D208B1D4C006A20A3 /* ArticleModel.h */,
 				4C07250E208B1D4C006A20A3 /* ArticleModel.m */,
+				4C4061612090146B005C71E5 /* titleModel.h */,
+				4C4061622090146B005C71E5 /* titleModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -334,6 +342,8 @@
 				4C072552208DC55C006A20A3 /* UIColor+Hex.m */,
 				4C071376208E061800D4844F /* XHNavigationController.h */,
 				4C071377208E061900D4844F /* XHNavigationController.m */,
+				4C4061642090539B005C71E5 /* XHRefreshHeader.h */,
+				4C4061652090539B005C71E5 /* XHRefreshHeader.m */,
 				4C0724C02089BF54006A20A3 /* Category */,
 			);
 			path = Tools;
@@ -499,11 +509,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-qsd/Pods-qsd-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+				"${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMCommonLog.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -557,6 +569,7 @@
 				4C0724E12089BF54006A20A3 /* NSDate+Utils.m in Sources */,
 				4C072486208983C1006A20A3 /* ZJTitleView.m in Sources */,
 				4C07137B208EC8F900D4844F /* AnotherViewController.m in Sources */,
+				4C4061632090146B005C71E5 /* titleModel.m in Sources */,
 				4C0724E62089BF54006A20A3 /* UIBarButtonItem+Common.m in Sources */,
 				4C072481208983C1006A20A3 /* ZJCollectionView.m in Sources */,
 				4C0724E92089BF54006A20A3 /* UIImage+HDExtension.m in Sources */,
@@ -585,6 +598,7 @@
 				4C0724E82089BF54006A20A3 /* UIDevice+XHExtension.m in Sources */,
 				4C0724ED2089BF54006A20A3 /* UIView+Extension.m in Sources */,
 				4C0724E42089BF54006A20A3 /* NSString+XHExtension.m in Sources */,
+				4C4061662090539C005C71E5 /* XHRefreshHeader.m in Sources */,
 				4C0724E52089BF54006A20A3 /* SVProgressHUD+XH.m in Sources */,
 				4C07246520897F91006A20A3 /* LaunchIntroductionView.m in Sources */,
 				4C071378208E061900D4844F /* XHNavigationController.m in Sources */,
@@ -736,6 +750,7 @@
 			baseConfigurationReference = 892CABC25A16B951C4CAD1B6 /* Pods-qsd.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V69YTV72W;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -744,9 +759,10 @@
 				INFOPLIST_FILE = qsd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jiucangtouzi.qsd;
+				PRODUCT_BUNDLE_IDENTIFIER = jxd.blockchain.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -755,6 +771,7 @@
 			baseConfigurationReference = 136BA1B61936BDA2325B8FFC /* Pods-qsd.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V69YTV72W;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -763,9 +780,10 @@
 				INFOPLIST_FILE = qsd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jiucangtouzi.qsd;
+				PRODUCT_BUNDLE_IDENTIFIER = jxd.blockchain.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

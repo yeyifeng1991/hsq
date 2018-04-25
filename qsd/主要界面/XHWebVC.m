@@ -83,7 +83,6 @@
 // 记得取消监听
 - (void)dealloc {
     @try {
-        
         [self.wkView removeObserver:self forKeyPath:@"estimatedProgress" context:nil];
         [self.wkView setNavigationDelegate:nil];
     }

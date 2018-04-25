@@ -52,7 +52,7 @@ static NSString * const  cell3 = @"newsCell"; // 相关新闻的图片 第三区
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"金迅达";
+    self.navigationItem.title = @"金讯达";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[self getCustomBtn]];
     [self.view addSubview:self.webView];

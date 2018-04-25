@@ -28,7 +28,6 @@
 @implementation RootWebViewController
 
 - (void)dealloc{
-    NSLog(@"--dealloc方法执行---");
     @try {
  
         [self.webView removeObserver:self forKeyPath:@"estimatedProgress" context:@"Progress"];
@@ -60,13 +59,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.page = -1;
-//    self.view.backgroundColor = CCXColorWithHex(@"#ffffff");
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.clipsToBounds = NO;
 //    [self setClearNavigationBar];
     [self setBackNavigationBarItem];
     [self createWebViewWithURL:self.url];
-
 }
 
 #pragma mark - 自定义方法
@@ -90,9 +87,18 @@
  创建返回按钮
  */
 - (void)setBackNavigationBarItem{
-    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
-    baseView.backgroundColor = [UIColor colorWithHexString:@"#FE5722"];
-//    baseView.backgroundColor = [self colorWithHexString:self.colorModel.value];
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NAVIGATION_HEIGHT)];
+
+    NSString * str = [XHDefault objectForKey:@"color"];
+    if (str) {
+        baseView.backgroundColor = [UIColor colorWithHexString:str];
+
+    }
+    else
+    {
+        baseView.backgroundColor = [UIColor orangeColor];
+
+    }
     self.titleLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-200)/2, 30, 200, 25)];
     self.titleLab.font = [UIFont systemFontOfSize:18];
     self.titleLab.textAlignment = NSTextAlignmentCenter;
@@ -106,7 +112,7 @@
     [baseView addSubview:imageV];
     
     self.backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backBtn.frame = CGRectMake(0, 0, 84, 44);
+    self.backBtn.frame = CGRectMake(0, 0, 84, NAVIGATION_HEIGHT);
     self.backBtn.tag = 9999;
 //    [self.backBtn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [ self.backBtn addTarget:self action:@selector(BarbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,8 +149,7 @@
         self.backBtn.hidden = NO;
         self.homeBtn.hidden= YES; // home界面需要隐藏
     }
-    [self.view addSubview:baseView];
-    
+    [self.view addSubview:baseView];    
 
 }
 - (UIRectEdge)edgesForExtendedLayout {
@@ -153,6 +158,7 @@
 #pragma mark - 返回按钮事件
 -(void)BarbuttonClick:(UIButton*)button
 {
+    NSLog(@"----- 按钮方法执行 ---");
     if (self.webView.backForwardList.backList.count > 0){
         [self.webView goBack];
     } else {
@@ -169,7 +175,7 @@
                 webVc.url = self.systemModel.url;
                 webVc.colorModel = self.colorModel;
                 webVc.hidesBottomBarWhenPushed = YES;
-                webVc.isFirst = YES;
+                webVc.isFirst = NO;
                 [self.navigationController pushViewController:webVc animated:YES];
             }
             else // 进入home界面
@@ -191,17 +197,21 @@
         if ( self.page >0) {         //得到栈里面的list
 //            [self createWebViewWithURL:self.url];
             self.page = -1;// 记录参数修改为-1
-            [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject];
-
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
-            
+            NSLog(@"webView的加载记录个数 = %ld",self.webView.backForwardList.backList.count);
+            if (self.webView.backForwardList.backList.count >0) {
+                [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject]; // 返回到第一个元素
+                [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]]; // 重新加载指定webView
+            }
+            else
+            {
+                [SVProgressHUD showWithStatus:@"已在当前页面" duration:2];
+            }
         }
-
 }
 - (void)createWebViewWithURL:(NSString *)url{
     self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0)];
     self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
-    self.progressView.trackTintColor = [UIColor clearColor];
+//    self.progressView.trackTintColor = [UIColor clearColor];
     [self.view addSubview:self.progressView];
 //    [self.progressView makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.left.right.equalTo(self.view);
@@ -225,7 +235,7 @@
     
     /**网页*/
 //    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
-    self.webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 64.5, SCREEN_WIDTH, SCREEN_HEIGHT-64) configuration:config];
+    self.webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64) configuration:config];
     [self.webView.configuration.userContentController addUserScript:noneSelectScript];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
@@ -343,9 +353,7 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
 }
-- (void)onBack {
-    
-}
+
 
 - (void)banGesture{
     for (UIView *scrollView in self.webView.subviews) {

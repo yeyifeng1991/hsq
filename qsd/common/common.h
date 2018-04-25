@@ -78,6 +78,8 @@
 #define GetAppConfig @"System/GetAppStartConfig"  //获取app信息列表
 #define GetAdList    @"System/GetAdList"  //获取广告业列表
 #define ViewArticle  @"Bussiness/ViewArticle"  //获取详情
+#define TitleList    @"System/GetArticleTitleList" // 获取title列表
+
 
 // 日记输出宏
 #ifdef DEBUG // 调试状态, 打开LOG功能

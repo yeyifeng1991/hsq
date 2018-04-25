@@ -9,6 +9,7 @@
 #import "anotherRootWebVC.h"
 #import "Masonry.h"
 #import "common.h"
+#import "UIColor+Hex.h"
 @interface anotherRootWebVC ()<WKUIDelegate, WKNavigationDelegate>
 @property(nonatomic,strong) UIBarButtonItem *backItem;
 @property (nonatomic,strong) UILabel * titleLab;
@@ -46,7 +47,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    self.navigationController.navigationBarHidden = YES;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,8 +93,15 @@
  创建返回按钮
  */
 - (void)setBackNavigationBarItem{
-    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
-    baseView.backgroundColor = [self colorWithHexString:self.colorModel.value];
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, NAVIGATION_HEIGHT)];
+    NSString * str = [XHDefault objectForKey:@"color"];
+    if (str) {
+        baseView.backgroundColor = [UIColor colorWithHexString:str];
+    }
+    else
+    {
+        baseView.backgroundColor = [UIColor orangeColor];
+    }
     self.titleLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-200)/2, 30, 200, 25)];
     self.titleLab.font = [UIFont systemFontOfSize:18];
     self.titleLab.textAlignment = NSTextAlignmentCenter;
@@ -102,7 +115,7 @@
     [baseView addSubview:imageV];
     
     self.backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backBtn.frame = CGRectMake(0, 0, 84, 44);
+    self.backBtn.frame = CGRectMake(0, 0, 84, NAVIGATION_HEIGHT);
     self.backBtn.tag = 9999;
     //    [self.backBtn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [ self.backBtn addTarget:self action:@selector(BarbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -189,14 +202,14 @@
 {
     NSLog(@"记录在加载个数=%ld代理载入栈个数%ld",self.page,self.webView.backForwardList.backList.count);
     if ( self.page >0) {         //得到栈里面的list
-        [self createWebViewWithURL:self.url];
-        self.page = -1;// 记录参数修改为0
+        self.page = -1;// 记录参数修改为-1
+        [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     }
     
 }
 - (void)createWebViewWithURL:(NSString *)url{
     self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0)];
-//    self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
     self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
     self.progressView.trackTintColor = [UIColor whiteColor];
     [self.view addSubview:self.progressView];

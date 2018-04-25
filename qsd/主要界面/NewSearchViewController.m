@@ -57,10 +57,21 @@ static  NSString * cell = @"newsCell";
         _searchBar.placeholder = @"搜索相关信息";
         _searchBar.layer.borderWidth = 1.0f;
         _searchBar.layer.cornerRadius = 5.0f;
-//        _searchBar.showsCancelButton = YES;
+        _searchBar.showsCancelButton = YES;
         _searchBar.layer.borderColor = [UIColor clearColor].CGColor;
 //        _searchBar.layer.borderColor = [UIColor grayColor].CGColor;
-        
+                for (id obj in [_searchBar subviews]) {
+                    if ([obj isKindOfClass:[UIView class]]) {
+                        for (id obj2 in [obj subviews]) {
+                            if ([obj2 isKindOfClass:[UIButton class]]) {
+                                UIButton *btn = (UIButton *)obj2;
+                                [btn setTitle:@"取消" forState:UIControlStateNormal];
+                                [btn addTarget:self action:@selector(cancelBtn) forControlEvents:UIControlEventTouchUpInside];
+                                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                            }
+                        }
+                    }
+                }
         UIView * searchBarView = [[UIView alloc]init];
         searchBarView.backgroundColor = [UIColor clearColor];
         _searchBar.clipsToBounds = YES;
@@ -68,6 +79,11 @@ static  NSString * cell = @"newsCell";
         
     }
     return _searchBar;
+}
+// 取消按钮
+-(void)cancelBtn
+{
+    NSLog(@"手动取消");
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -88,29 +104,36 @@ static  NSString * cell = @"newsCell";
    
     
 }
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        _searchBar.showsCancelButton = YES;
-        for (id obj in [searchBar subviews]) {
-            if ([obj isKindOfClass:[UIView class]]) {
-                for (id obj2 in [obj subviews]) {
-                    if ([obj2 isKindOfClass:[UIButton class]]) {
-                        UIButton *btn = (UIButton *)obj2;
-                        [btn setTitle:@"取消" forState:UIControlStateNormal];
-                        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                    }
-                }
-            }
-        }
-        
-    }];
+//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+//    [UIView animateWithDuration:0.3 animations:^{
+//
+//        _searchBar.showsCancelButton = YES;
+//        for (id obj in [searchBar subviews]) {
+//            if ([obj isKindOfClass:[UIView class]]) {
+//                for (id obj2 in [obj subviews]) {
+//                    if ([obj2 isKindOfClass:[UIButton class]]) {
+//                        UIButton *btn = (UIButton *)obj2;
+//                        [btn setTitle:@"取消" forState:UIControlStateNormal];
+//                        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//                    }
+//                }
+//            }
+//        }
+//
+//    }];
+//}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;
+{
+    NSLog(@"---searchBarSearchButtonClicked--------");
 }
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar __TVOS_PROHIBITED;   // called when cancel button pressed
 {
-    searchBar.showsCancelButton = NO;
-    [self.view endEditing:YES];
-    [searchBar resignFirstResponder];
+    NSLog(@"---代理取消searchBarCancelButtonClicked--------");
+
+//    searchBar.showsCancelButton = NO;
+//    [self.view endEditing:YES];
+    [self.searchBar resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - 数据处理
@@ -130,7 +153,6 @@ static  NSString * cell = @"newsCell";
             NSMutableDictionary * resultArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
             //        NSLog(@"拿到搜索%@",resultArray);
             [self.searchArray addObjectsFromArray:[ArticleListModel mj_objectArrayWithKeyValuesArray:resultArray[@"rows"]]];
-            NSLog(@"网络请求中个数%ld",self.searchArray.count);
             //        _page++;
             [self.newsTab reloadData];
         } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
@@ -140,7 +162,6 @@ static  NSString * cell = @"newsCell";
             //        [self.newsTab reloadData];
         }];
     }
-    NSLog(@"输入参数%@",dic);
 
 }
 #pragma mark - lazy

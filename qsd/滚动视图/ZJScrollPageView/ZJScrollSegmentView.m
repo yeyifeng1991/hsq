@@ -155,8 +155,8 @@ static CGFloat const contentSizeXOff = 20.0;
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleLabelOnClick:)];
         [titleView addGestureRecognizer:tapGes];
         
-        CGFloat titleViewWidth = [titleView titleViewWidth];
-//        CGFloat titleViewWidth = [UIScreen mainScreen].bounds.size.width/self.titles.count;
+//        CGFloat titleViewWidth = [titleView titleViewWidth];
+        CGFloat titleViewWidth = [UIScreen mainScreen].bounds.size.width/self.titles.count;
     
         [self.titleWidths addObject:@(titleViewWidth)];
         
@@ -173,7 +173,9 @@ static CGFloat const contentSizeXOff = 20.0;
     if (self.titles.count == 0) return;
 
     [self setupScrollViewAndExtraBtn];
+    #pragma mark - 调用自适应宽度的方法
     [self setUpTitleViewsPosition];
+    NSLog(@"===执行方法===");
     [self setupScrollLineAndCover];
     
     if (self.segmentStyle.isScrollTitle) { // 设置滚动区域
@@ -202,7 +204,7 @@ static CGFloat const contentSizeXOff = 20.0;
         self.extraBtn.frame = CGRectMake(scrollW , extraBtnY, extraBtnW, self.zj_height - 2*extraBtnY);
     }
 }
-
+#pragma mark - 适应宽度
 - (void)setUpTitleViewsPosition {
     CGFloat titleX = 0.0;
     CGFloat titleY = 0.0;

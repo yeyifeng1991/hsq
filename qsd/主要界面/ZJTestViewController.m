@@ -24,6 +24,8 @@
 #import "XHWebVC.h"
 #import "RootWebViewController.h"
 #import "XHWebVC.h"
+#import "SVProgressHUD+XH.h"
+#import "XHRefreshHeader.h"
 @interface ZJTestViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 {
     NSInteger _page;
@@ -48,8 +50,14 @@ static  NSString * cell = @"newsCell";
     self.extendedLayoutIncludesOpaqueBars = YES;
 
     [self.view addSubview:self.newsTab];
-    self.newsTab.mj_header =[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    MJRefreshNormalHeader * header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    header.stateLabel.hidden = YES;
+    self.newsTab.mj_header = header;
+//    self.newsTab.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     self.newsTab.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    footer.stateLabel.hidden = YES;
+    self.newsTab.mj_footer = footer;
 }
 
 
@@ -77,7 +85,7 @@ static  NSString * cell = @"newsCell";
          }
          [self.newsTab.mj_header endRefreshing];
      } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
-     NSLog(@"失败%@",error);
+       NSLog(@"失败%@",error);
          _page--;
          [self.newsTab.mj_header endRefreshing];
          [self.newsTab.mj_footer endRefreshing];
@@ -144,30 +152,30 @@ static  NSString * cell = @"newsCell";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-  
-    ArticleListModel * model = self.dataArray[indexPath.row];
-    if (![model.topicUrl isEqualToString:@"#"] && model.topicUrl != nil ) {
-        RootWebViewController * webVc = [[RootWebViewController alloc]init];
-        webVc.url = model.topicUrl;
-        webVc.status = enterAppStarted;
-//        webVc.hidesBottomBarWhenPushed = YES;
-        webVc.isFirst = NO;
-        [self.navigationController pushViewController:webVc animated:YES];
-        /*
-        
-         */
-//                XHWebVC * vc = [[XHWebVC alloc]init];
-//                vc.apPicUrl = model.topicUrl;
-//                [self.navigationController pushViewController:vc animated:YES];
+   
+    if (self.dataArray.count >0) {
+        ArticleListModel * model = self.dataArray[indexPath.row];
+       
+        if (![model.topicUrl isEqualToString:@"#"] && model.topicUrl != nil ) {
 
-    }
-    
-    else // 跳详情
-    {
-        NewsViewController * newsVc = [[NewsViewController alloc]init];
-        newsVc.model = model;
-        [self.navigationController pushViewController:newsVc animated:YES];
+             RootWebViewController * webVc = [[RootWebViewController alloc]init];
+             webVc.url = model.topicUrl;
+             webVc.status = enterAppStarted;
+             //        webVc.hidesBottomBarWhenPushed = YES;
+             webVc.isFirst = NO;
+             [self.navigationController pushViewController:webVc animated:YES];
+     
+
+        }
+        
+        else // 跳详情
+        {
+             [SVProgressHUD showWithStatus:@"加载中"];
+            NewsViewController * newsVc = [[NewsViewController alloc]init];
+            newsVc.model = model;
+            [self.navigationController pushViewController:newsVc animated:YES];
+        }
+
     }
 
     

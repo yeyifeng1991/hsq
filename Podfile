@@ -13,4 +13,6 @@ pod 'DZNEmptyDataSet'
 pod 'UMCCommon'
 pod 'UMCAnalytics'
 pod 'UMCSecurityPlugins'
+ pod 'UMCCommonLog'
+
 end

@@ -16,16 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "qsd/&#x4e3b;&#x8981;&#x754c;&#x9762;/RootWebViewController.m"
-            timestampString = "546276551.63649"
+            timestampString = "546335423.665659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "-BarbuttonClick:"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "-setBackNavigationBarItem"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "qsd/&#x4e3b;&#x8981;&#x754c;&#x9762;/RootWebViewController.m"
-            timestampString = "546276551.637221"
+            filePath = "qsd/&#x6eda;&#x52a8;&#x89c6;&#x56fe;/ZJScrollPageView/ZJTitleView.m"
+            timestampString = "546328209.4532059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "-BarbuttonClick:"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-titleViewWidth"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "qsd/&#x6eda;&#x52a8;&#x89c6;&#x56fe;/ZJScrollPageView/ZJTitleView.m"
+            timestampString = "546328211.090506"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-titleViewWidth"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

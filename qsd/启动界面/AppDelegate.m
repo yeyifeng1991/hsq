@@ -18,8 +18,14 @@
 #import "common.h"
 #import "UIColor+Hex.h"
 #import "XHNavigationController.h"
+#import "titleModel.h" // 标题栏数据类
+#import "RootWebViewController.h"
+#import <UMCommon/UMCommon.h>
+#import <UMCommonLog/UMCommonLogHeaders.h>
+
+
 @interface AppDelegate ()
-@property (nonatomic, strong) NSMutableArray *dataArray; // 当前页面数据类
+@property (nonatomic, strong) NSMutableArray *dataArray; // 当前标题数据类
 
 @end
 
@@ -29,7 +35,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeRootViewController:) name:@"changeRootViewController" object:nil];
-
+    [self getAticleTitleList];
+    [self configUMTJ];
     // 设置整个页面的导航色和文字风格
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
         [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#FE5722"]];
@@ -43,10 +50,7 @@
      AdViewController *adVC = [[AdViewController alloc] init];
      UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
      self.window.rootViewController = nav;
-
-//    ZJVc3Controller *main = [[ZJVc3Controller alloc] init];
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
-//    self.window.rootViewController = nav;
+    
     [self.window makeKeyAndVisible];
 
 
@@ -67,6 +71,14 @@
 
     return YES;
 }
+- (void)configUMTJ{
+//    [UMConfigure initWithAppkey:@"5adef535a40fa310ba000024" channel:@"App Store"]; // 初始化友盟
+
+    [UMConfigure initWithAppkey:@"5adef535a40fa310ba000024" channel:@"App Store"]; // 初始化友盟
+    [UMConfigure setLogEnabled:YES];
+    [UMCommonLogManager setUpUMCommonLogManager];
+    
+}
 - (void)changeRootViewController:(NSNotification *)notification{
     if ([notification.object isEqualToString:@"fromAdVC"]) // 改变根式图
     {
@@ -77,7 +89,24 @@
         
     }
 }
-
+#pragma mark - 获取顶部标题栏
+-(void)getAticleTitleList
+{
+    [[NetworkManager shareNetworkManager] GETUrl:[NSString stringWithFormat:@"%@%@",BaseUrl,TitleList] parameters:@{@"format":@"json"} success:^(id responseObject) {
+        NSMutableDictionary * resultArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:nil];
+        [self.dataArray addObjectsFromArray:[titleModel mj_objectArrayWithKeyValuesArray:resultArray]];
+        NSMutableArray * titlesArray = [NSMutableArray array];
+        for (titleModel * model in self.dataArray) {
+            [titlesArray addObject:model.value];
+        }
+        [XHDefault setObject:titlesArray forKey:@"titleArray"];
+        [XHDefault synchronize];
+        
+    } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
+        
+    }];
+    
+}
 - (NSMutableArray *)dataArray
 {
     if (nil == _dataArray) {

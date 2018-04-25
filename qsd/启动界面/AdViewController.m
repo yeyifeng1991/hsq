@@ -25,6 +25,7 @@
 @property (nonatomic,strong) AppStartConfigModel * colorModel; // 颜色配置数据类
 
 
+
 @end
 #define CCXPROTOCOL @"http://hsq.xyd.jiucangjinrong.com/xiaoyuedai/zcxy2.html" //快速注册协议
 
@@ -46,7 +47,6 @@
     [self startAppConfig];
     [self createSubviews]; // 页面布局
     [self networkDetectionAndSetting]; // 检查网络状态
-    NSLog(@"状态栏高度==%f导航栏高度==%f",STATUSBAR_HEIGHT,NAVIGATION_HEIGHT);
 
 }
 
@@ -83,11 +83,10 @@
     [super viewWillAppear:animated];
 //    self.navigationControl.navigationBarHidden=NO;
     self.navigationController.navigationBarHidden = YES;
-
 }
 - (void)createSubviews{
     //背景图，临时设置为开机动画，后面要更改为网络请求的图片
-//    _backgroundImageView = KBACKGROUNDVIEW(@"AppBoot");
+    _backgroundImageView = KBACKGROUNDVIEW(@"AppBoot");
     _backgroundImageView = [[UIImageView alloc]init];
     UITapGestureRecognizer *tapGesture1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [_backgroundImageView addGestureRecognizer:tapGesture1];
@@ -191,38 +190,16 @@
          self.sysmodel = (AppStartConfigModel*)self.dataArray[0];
          self.startmodel = (AppStartConfigModel*)self.dataArray[1];
         self.colorModel = (AppStartConfigModel*)self.dataArray[2];
+        [XHDefault setObject:self.colorModel.value forKey:@"color"];
+        [XHDefault synchronize];
         [_backgroundImageView sd_setImageWithURL:[NSURL URLWithString:self.startmodel.value] placeholderImage:[UIImage imageNamed:@"AppBoot"]];
-        NSLog(@"返回数据%@",resultArray);
-        /*
-         {
-         id = 2;
-         key = SysConfig;
-         value = True;
-         url = http://meimei.weilianupup.com/;
-         remark = ;
-         }
-         ,
-         {
-         id = 3;
-         key = AppStartAd;
-         value = http://firstapp.weilianup.com/images/appAd.jpg;
-         url = http://meimei.weilianupup.com/;
-         remark = <null>;
-         },
-         {
-         id = 4;
-         key = WebViewTitleColor;
-         remark = "<null>";
-         url = "<null>";
-         value = "#FE5722";
-         }
-         */
-        
-      
-        
+
     } failure:^(NSError *error, ParamtersJudgeCode judgeCode) {
         NSLog(@"调用失败%@",error);
     }];
+    
+    
+    
     
 }
 
