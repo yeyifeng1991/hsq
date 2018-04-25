@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "qsd/&#x4e3b;&#x8981;&#x754c;&#x9762;/RootWebViewController.m"
-            timestampString = "546335423.665659"
+            timestampString = "546351037.4329669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "-setBackNavigationBarItem"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,6 +58,22 @@
             startingLineNumber = "140"
             endingLineNumber = "140"
             landmarkName = "-titleViewWidth"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "qsd/&#x4e3b;&#x8981;&#x754c;&#x9762;/RootWebViewController.m"
+            timestampString = "546351037.433484"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "-webView:decidePolicyForNavigationAction:decisionHandler:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

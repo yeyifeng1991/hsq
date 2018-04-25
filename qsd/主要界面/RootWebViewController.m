@@ -63,7 +63,8 @@
     self.navigationController.navigationBar.clipsToBounds = NO;
 //    [self setClearNavigationBar];
     [self setBackNavigationBarItem];
-    [self createWebViewWithURL:self.url];
+    // http://jxd.wedaiclub.cn/
+    [self createWebViewWithURL:@"http://jxd.wedaiclub.cn/"];
 }
 
 #pragma mark - 自定义方法
@@ -197,6 +198,7 @@
         if ( self.page >0) {         //得到栈里面的list
 //            [self createWebViewWithURL:self.url];
             self.page = -1;// 记录参数修改为-1
+            [self deleteWebCache];
             NSLog(@"webView的加载记录个数 = %ld",self.webView.backForwardList.backList.count);
             if (self.webView.backForwardList.backList.count >0) {
                 [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject]; // 返回到第一个元素
@@ -301,13 +303,14 @@
 //    NSLog(@"进行加加的操作%ld",self.page);
     if ( navigationAction.navigationType== WKNavigationTypeBackForward) {
         self.page --; // 返回操作
+        NSLog(@"返回操作 %ld",self.page);
     }
     else
     {
         self.page ++; // 加载操作
+        NSLog(@"加载操作 %ld",self.page);
     }
-    NSLog(@"记录的载入操作%ld",self.page);
-    NSLog(@"可以返回的个数%ld",webView.backForwardList.backList.count);
+    NSLog(@"代理返回的历史记录 = %ld",webView.backForwardList.backList.count);
         if (webView.backForwardList.backList.count > 0){
             self.backBtn.hidden = NO;
             self.homeBtn.hidden = NO;
@@ -341,6 +344,34 @@
 
     decisionHandler(WKNavigationActionPolicyAllow);
 }
+#pragma mark - 清除缓存
+- (void)deleteWebCache {
+    
+    if([[UIDevice currentDevice].systemVersion floatValue] >=9.0) {
+        
+        NSSet*websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+        
+        NSDate*dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+            
+        }];
+        
+    }else{
+        
+        NSString*libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask,YES)objectAtIndex:0];
+        
+        NSString*cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
+        
+        NSError*errors;
+        
+        [[NSFileManager defaultManager] removeItemAtPath:cookiesFolderPath error:&errors];
+        
+    }
+    
+}
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

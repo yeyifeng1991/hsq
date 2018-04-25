@@ -13,7 +13,7 @@
 @interface XHWebVC ()<WKNavigationDelegate>
 
 @property (assign, nonatomic) NSUInteger loadCount;
-@property (nonatomic, strong) WKWebView *wkView;
+@property (nonatomic, weak) WKWebView *wkView;
 @property (nonatomic, strong) UIProgressView *progressView;
 
 @end
@@ -25,22 +25,24 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"金讯达";
-    [self.view addSubview:self.wkView];
+    [self.view addSubview:self.wkView]; // 先添加再载入
+    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_apPicUrl]];
+    [self.wkView loadRequest:request];
+    
 }
 
 - (void)setApPicUrl:(NSString *)apPicUrl
 {
     _apPicUrl = apPicUrl;
-    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_apPicUrl]];
-    [self.wkView loadRequest:request];
+
 }
-//- (void)setNameDic:(NSDictionary *)nameDic
-//{
-//    self.navigationItem.title = [nameDic allKeys].lastObject ;
-//    NSURL *fileUrl = [NSURL URLWithString:[nameDic allValues].firstObject];
-//     [self.wkView loadRequest:[NSMutableURLRequest requestWithURL:fileUrl]];
-//
-//}
+- (void)setNameDic:(NSDictionary *)nameDic
+{
+    self.navigationItem.title = [nameDic allKeys].lastObject ;
+    NSURL *fileUrl = [NSURL URLWithString:[nameDic allValues].firstObject];
+     [self.wkView loadRequest:[NSMutableURLRequest requestWithURL:fileUrl]];
+
+}
 
 - (WKWebView *)wkView{
     if (!_wkView) {
@@ -56,9 +58,9 @@
         wkWebView.backgroundColor = [UIColor whiteColor];
         wkWebView.navigationDelegate = self;
         [self.view insertSubview:wkWebView belowSubview:progressView];
-        
-        [wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
         self.wkView = wkWebView;
+        [self.wkView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+        
     }
     return _wkView;
 }
@@ -83,6 +85,7 @@
 // 记得取消监听
 - (void)dealloc {
     @try {
+        NSLog(@"------移除观察者----");
         [self.wkView removeObserver:self forKeyPath:@"estimatedProgress" context:nil];
         [self.wkView setNavigationDelegate:nil];
     }

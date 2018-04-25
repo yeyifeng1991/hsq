@@ -50,7 +50,6 @@
      AdViewController *adVC = [[AdViewController alloc] init];
      UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:adVC];
      self.window.rootViewController = nav;
-    
     [self.window makeKeyAndVisible];
 
 

@@ -158,13 +158,17 @@ static  NSString * cell = @"newsCell";
        
         if (![model.topicUrl isEqualToString:@"#"] && model.topicUrl != nil ) {
 
-             RootWebViewController * webVc = [[RootWebViewController alloc]init];
-             webVc.url = model.topicUrl;
-             webVc.status = enterAppStarted;
-             //        webVc.hidesBottomBarWhenPushed = YES;
-             webVc.isFirst = NO;
-             [self.navigationController pushViewController:webVc animated:YES];
-     
+//             RootWebViewController * webVc = [[RootWebViewController alloc]init];
+//             webVc.url = model.topicUrl;
+//             webVc.status = enterAppStarted;
+//             //        webVc.hidesBottomBarWhenPushed = YES;
+//             webVc.isFirst = NO;
+//             [self.navigationController pushViewController:webVc animated:YES];
+            
+            
+            XHWebVC * webvc = [[XHWebVC alloc]init];
+            webvc.apPicUrl = model.topicUrl;
+            [self.navigationController pushViewController:webvc animated:YES];
 
         }
         

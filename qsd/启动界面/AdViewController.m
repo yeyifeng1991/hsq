@@ -155,31 +155,36 @@
 #pragma mark - 倒计时和点击立即结束需要执行的方法
 -(void)sysConfigRootWebviewController
 {
-  
-    if ([self.sysmodel.value isEqualToString:@"True"] ) {
-        if (self.sysmodel.url!=nil && ![self.sysmodel.url isEqualToString:@"#"]) {
-            // 跳转webview
-            [self killNSTimer];
-            RootWebViewController * webVc = [[RootWebViewController alloc]init];
-             webVc.status = enterSysConfig;
-            webVc.colorModel = self.colorModel;
-            webVc.url = self.sysmodel.url;
-            webVc.hidesBottomBarWhenPushed = YES;
-            webVc.isFirst = YES;
-            //                    [self presentViewController:webVc animated:YES completion:nil];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }
-    }
-    else
-    {
-        // 进入首页
-        /*
-         1.停止计时器
-         2.发送通知更改根式图
-         */
-        [self closeAdVC];
 
-    }
+    /*
+     if ([self.sysmodel.value isEqualToString:@"True"] ) {
+     if (self.sysmodel.url!=nil && ![self.sysmodel.url isEqualToString:@"#"]) {
+     // 跳转webview
+     [self killNSTimer];
+     RootWebViewController * webVc = [[RootWebViewController alloc]init];
+     webVc.status = enterSysConfig;
+     webVc.colorModel = self.colorModel;
+     webVc.url = self.sysmodel.url;
+     webVc.hidesBottomBarWhenPushed = YES;
+     webVc.isFirst = YES;
+     //                    [self presentViewController:webVc animated:YES completion:nil];
+     [self.navigationController pushViewController:webVc animated:YES];
+     }
+     }
+     else
+     {
+     // 进入首页
+     [self closeAdVC]; // 1. 停止计时器 2.发送通知更改根式图
+     }
+     */
+    [self killNSTimer];
+    RootWebViewController * webVc = [[RootWebViewController alloc]init];
+    webVc.status = enterSysConfig;
+    webVc.colorModel = self.colorModel;
+    webVc.url = self.sysmodel.url;
+    webVc.hidesBottomBarWhenPushed = YES;
+    webVc.isFirst = YES;
+    [self.navigationController pushViewController:webVc animated:YES];
 }
 #pragma mark - 启动页面信息数据
 -(void)startAppConfig
