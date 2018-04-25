@@ -18,6 +18,7 @@
 @property (nonatomic,strong) UIButton * backBtn;
 @property (nonatomic,assign) NSInteger page; // WkWebview方法拦截可返回次数不准,增加此参数用来记录判断
 @property (nonatomic,strong) UIButton * homeBtn; /// 首页刷新按钮
+@property (nonatomic,strong) NSString * encodeUrl;// 字符串编码格式修改
 
 @end
 #define CCXSIZE [UIScreen mainScreen].bounds.size//获取屏幕SIZE
@@ -137,15 +138,10 @@
     [baseView addSubview:self.homeBtn];
     
     if (self.status ==  enterSysConfig) { // 不可返回界面
-        if (self.page>0) {
-            self.homeBtn.hidden = NO; // 出现刷新首页界面
-        }
-        else
-        {
-            self.homeBtn.hidden = YES; // 隐藏刷新界面
-        }
-        self.backBtn.hidden = YES;
-    }else // 返回界面
+         self.homeBtn.hidden = YES; // 隐藏刷新界面
+          self.backBtn.hidden = YES;
+    }
+    else // 返回界面
     {
         self.backBtn.hidden = NO;
         self.homeBtn.hidden= YES; // home界面需要隐藏
@@ -195,21 +191,55 @@
 #pragma mark - 首页刷新按钮
 -(void)HomePressed
 {
-        if ( self.page >0) {         //得到栈里面的list
-//            [self createWebViewWithURL:self.url];
-            self.page = -1;// 记录参数修改为-1
-            [self deleteWebCache];
-            NSLog(@"webView的加载记录个数 = %ld",self.webView.backForwardList.backList.count);
-            if (self.webView.backForwardList.backList.count >0) {
-                [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject]; // 返回到第一个元素
-                [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]]; // 重新加载指定webView
-            }
-            else
-            {
-                [SVProgressHUD showWithStatus:@"已在当前页面" duration:2];
-            }
+        NSLog(@"HomePressed的webView的加载记录个数 = %ld",self.webView.backForwardList.backList.count);
+        if (self.webView.backForwardList.backList.count >0) {
+
+        // 回到第一个界面，相当于清除之前的记录
+        [self.webView goToBackForwardListItem:self.webView.backForwardList.backList.firstObject];
+       
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.encodeUrl]]]; // 重新加载指定webView
         }
+        else
+        {
+            [SVProgressHUD showWithStatus:@"已在当前页面" duration:2];
+        }
+    
 }
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    NSLog(@"加载失败原因%@",error);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
+    NSLog(@"网页开始接收网页内容");
+}
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
+
+    NSLog(@"网页加载完毕的历史记录 = %ld",webView.backForwardList.backList.count);
+    self.titleLab.text = webView.title;
+
+    if (webView.backForwardList.backList.count > 0){
+        self.backBtn.hidden = NO;
+        self.homeBtn.hidden = NO;
+    }
+    else
+    {
+        if (self.status == enterSysConfig) // 不可以返回
+        {
+
+            self.backBtn.hidden = YES;
+            self.homeBtn.hidden = YES;
+        }
+        else  // 可以返回的
+        {
+            self.backBtn.hidden = NO;
+            self.homeBtn.hidden = YES;
+        }
+        
+    }
+
+    
+}
+
 - (void)createWebViewWithURL:(NSString *)url{
     self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 0)];
     self.progressView.tintColor =  [self colorWithHexString:self.colorModel.value];
@@ -252,7 +282,9 @@
 //    }];
     [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:@"Progress"];
     [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:@"title1"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
+    NSString * newStr = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:newStr]]];
+    self.encodeUrl = newStr;
 }
 
 //观察者方法
@@ -286,7 +318,6 @@
         if (object == self.webView) {
             if (self.webView.title.length>7) {
                 self.titleLab.text = [self.webView.title substringToIndex:7];//截取下标7之前的字符串
-
             }
             self.titleLab.text = self.webView.title;
             
@@ -299,48 +330,7 @@
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-//       self.page ++;
-//    NSLog(@"进行加加的操作%ld",self.page);
-    if ( navigationAction.navigationType== WKNavigationTypeBackForward) {
-        self.page --; // 返回操作
-        NSLog(@"返回操作 %ld",self.page);
-    }
-    else
-    {
-        self.page ++; // 加载操作
-        NSLog(@"加载操作 %ld",self.page);
-    }
-    NSLog(@"代理返回的历史记录 = %ld",webView.backForwardList.backList.count);
-        if (webView.backForwardList.backList.count > 0){
-            self.backBtn.hidden = NO;
-            self.homeBtn.hidden = NO;
-        }
-        else
-        {
-            if (self.status == enterSysConfig) {
-                if (self.page >0) {
-                    self.backBtn.hidden = NO;
-                    self.homeBtn.hidden = NO;
-                }
-                else
-                {
-                    self.homeBtn.hidden = YES;
-                    self.backBtn.hidden = YES;
-                }
-            }
-            else{
-                if (self.page >0) {
-                    self.backBtn.hidden = NO;
-                    self.homeBtn.hidden = NO;
-                }
-                else
-                {
-                    self.homeBtn.hidden = YES;
-                    self.backBtn.hidden = NO;
-                }
-            }
-          
-        }
+
 
     decisionHandler(WKNavigationActionPolicyAllow);
 }
